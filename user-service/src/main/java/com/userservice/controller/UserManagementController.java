@@ -1,11 +1,16 @@
 package com.userservice.controller;
 
+import com.userservice.dto.RegisterRequestDto;
+import com.userservice.dto.UpdateRequestDto;
 import com.userservice.service.UserManagementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,29 +22,10 @@ public class UserManagementController {
 
 
     @PostMapping
-    public ResponseEntity<String> registerEmployeeById(){
+    public ResponseEntity<String> registerEmployeeById( @RequestBody Set<@Valid RegisterRequestDto> registerRequestDtos){
 
-        return null;
-    }
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployeeById(){
-        return null;
-    }
-
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
-
-        return null;
-    }
-
-
-    @PutMapping("reactivate-by-id/{id}")
-    public ResponseEntity<String> reactivateEmployeeById(@PathVariable Long id){
-
-        return null;
+        userManagementService.registerEmployee(registerRequestDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Employees saved successfully");
     }
 
 }
