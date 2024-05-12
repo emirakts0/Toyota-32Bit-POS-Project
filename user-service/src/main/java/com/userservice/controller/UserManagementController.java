@@ -28,4 +28,26 @@ public class UserManagementController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Employees saved successfully");
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateEmployeeById(@PathVariable Long id,
+                                                     @Valid @RequestBody UpdateRequestDto updateRequestDto){
+        userManagementService.updateEmployeeById(id, updateRequestDto);
+        return ResponseEntity.ok().body(String.format("Id with %d updated", id));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
+
+        userManagementService.deleteEmployeeById(id);
+        return ResponseEntity.ok().body(String.format("Id with %d deleted", id));
+    }
+
+
+    @PutMapping("reactivate-by-id/{id}")
+    public ResponseEntity<String> reactivateEmployeeById(@PathVariable Long id){
+
+        userManagementService.reactivateEmployeeById(id);
+        return ResponseEntity.ok().body(String.format("Id with %d reactivated", id));
+    }
 }
