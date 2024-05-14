@@ -1,5 +1,6 @@
 package com.userservice.service.impl;
 
+import com.userservice.dto.EmployeeDto;
 import com.userservice.dto.RegisterRequestDto;
 import com.userservice.dto.RoleDto;
 import com.userservice.dto.UpdateRequestDto;
@@ -12,9 +13,12 @@ import com.userservice.service.UserManagementService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
@@ -30,9 +34,12 @@ public class UserManagementServiceImpl implements UserManagementService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
     public Set<RegisterRequestDto> registerEmployee(Set<RegisterRequestDto> registerRequestDtoSet) {
         for (RegisterRequestDto request : registerRequestDtoSet) {
+
+            validateDto(request, null);
 
             request.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -50,6 +57,7 @@ public class UserManagementServiceImpl implements UserManagementService {
 
         return registerRequestDtoSet;
     }
+
 
     @Transactional
     @Override
@@ -70,7 +78,6 @@ public class UserManagementServiceImpl implements UserManagementService {
                 updateRequestDto.getEmail(),
                 password,
                 LocalDateTime.now());
-
 
 
         Set<RoleDto> dtoRoles = updateRequestDto.getRoles();
@@ -122,7 +129,34 @@ public class UserManagementServiceImpl implements UserManagementService {
         return id;
     }
 
+    @Transactional
+    @Override
+    public EmployeeDto searchUserByUsername(String username) {
+        Employee employee = employeeRepository.findByUsername(username)
+                .orElseThrow(() -> new EmployeeNotFoundException(String.format("Employee with username %s not found", username)));
 
+        return modelMapper.map(employee, EmployeeDto.class);
+    }
+
+    @Transactional
+    @Override
+    public Page<EmployeeDto> getAllUsersByFilterAndPagination(int pageSize, int pageNumber, boolean hideDeleted) {
+
+        if (pageSize < 1 || pageNumber < 1)
+            throw new InvalidInputException("page size and page number must be at least 1");
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "deleted").and(Sort.by(Sort.Direction.ASC, "username"));
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+
+        Page<Employee> employeePage = hideDeleted
+                ? employeeRepository.findAllByDeletedFalse(pageable)
+                : employeeRepository.findAll(pageable);
+
+        return employeePage.map(employee -> modelMapper.map(employee, EmployeeDto.class));
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
 
     private void validateDto(Object requestDto, Long id) {
 

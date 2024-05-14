@@ -3,8 +3,8 @@ package com.userservice.dto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-
 import java.util.Set;
+
 
 @Data
 public class RegisterRequestDto {

@@ -1,9 +1,10 @@
 package com.userservice.service;
 
+import com.userservice.dto.EmployeeDto;
 import com.userservice.dto.RegisterRequestDto;
 import com.userservice.dto.UpdateRequestDto;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Set;
 
 
@@ -19,4 +20,13 @@ public interface UserManagementService {
 
     @Transactional
     Long reactivateEmployeeById(Long id);
+
+    @Transactional
+    EmployeeDto searchUserByUsername(String username);
+
+    @Transactional
+    Page<EmployeeDto> getAllUsersByFilterAndPagination(int pageSize,
+                                                       int pageNumber,
+                                                       boolean hideDeleted);
+
 }

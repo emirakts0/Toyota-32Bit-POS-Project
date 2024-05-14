@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -17,10 +16,10 @@ import java.util.Optional;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee> findByUsername(String username);
-    Optional<Employee> findById(Long id);
     Optional<Employee> findByEmail(String email);
 
     Optional<Employee> findByIdAndDeletedFalse(Long id);
+    Page<Employee> findAllByDeletedFalse(Pageable pageable);
 
     @Modifying
     @Transactional
@@ -42,6 +41,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
                             String email,
                             String password,
                             LocalDateTime lastUpdateDate);
-
 }
 
