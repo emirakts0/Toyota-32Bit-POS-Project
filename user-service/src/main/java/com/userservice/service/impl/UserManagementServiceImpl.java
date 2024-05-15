@@ -129,7 +129,14 @@ public class UserManagementServiceImpl implements UserManagementService {
         return id;
     }
 
-    @Transactional
+    @Override
+    public EmployeeDto getUserById(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(String.format("Employee with username %d not found", id)));
+
+        return modelMapper.map(employee, EmployeeDto.class);
+    }
+
     @Override
     public EmployeeDto searchUserByUsername(String username) {
         Employee employee = employeeRepository.findByUsername(username)
@@ -138,7 +145,6 @@ public class UserManagementServiceImpl implements UserManagementService {
         return modelMapper.map(employee, EmployeeDto.class);
     }
 
-    @Transactional
     @Override
     public Page<EmployeeDto> getAllUsersByFilterAndPagination(int pageSize, int pageNumber, boolean hideDeleted) {
 

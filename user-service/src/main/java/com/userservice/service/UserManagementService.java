@@ -21,10 +21,10 @@ public interface UserManagementService {
     @Transactional
     Long reactivateEmployeeById(Long id);
 
-    @Transactional
+    EmployeeDto getUserById(Long id);
+
     EmployeeDto searchUserByUsername(String username);
 
-    @Transactional
     Page<EmployeeDto> getAllUsersByFilterAndPagination(int pageSize,
                                                        int pageNumber,
                                                        boolean hideDeleted);
