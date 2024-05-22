@@ -28,5 +28,4 @@ public interface ProductManagementService {
 
     @Transactional
     String updateStock(String Barcode, int stock);
-}
-
+    }

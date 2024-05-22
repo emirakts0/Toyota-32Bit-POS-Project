@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.Random;
 
 
@@ -43,5 +44,7 @@ public class Image {
             imageCode = new Random().nextLong() & Long.MAX_VALUE;
         }
     }
+
+
 
 }
