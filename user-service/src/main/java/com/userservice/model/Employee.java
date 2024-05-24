@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,12 @@ public class Employee {
     @Column(unique = true)
     private String username;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String surname;
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -40,7 +47,7 @@ public class Employee {
 
 
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "employee_roles",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))

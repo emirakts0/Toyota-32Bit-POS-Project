@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class RoleDto {
 
-    @Pattern(regexp = "ROLE_CASHIER|ROLE_ADMIN|ROLE_MANAGER",
-             message = "Invalid role name. Valid roles are: ROLE_CASHIER, ROLE_ADMIN, ROLE_MANAGER")
+    @Pattern(regexp = "CASHIER|ADMIN|MANAGER",
+             message = "Invalid role name. Valid roles are: CASHIER, ADMIN, MANAGER")
     private String roleName;
 }

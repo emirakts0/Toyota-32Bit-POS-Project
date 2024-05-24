@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
@@ -26,7 +25,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("UPDATE Employee e SET e.deleted = true WHERE e.id =:id")
     void markAsDeleted(Long id);
 
-    //@Transactional
     @Modifying
     @Transactional
     @Query("""
@@ -34,12 +32,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
               e.username = COALESCE(:username, e.username),
               e.email = COALESCE(:email, e.email),
               e.password = COALESCE(:password, e.password),
+              e.name = COALESCE(:name, e.name),
+              e.surname = COALESCE(:surname, e.surname),
               e.lastUpdateDate = COALESCE(:lastUpdateDate, e.lastUpdateDate)
               WHERE e.id =:id""")
     void updateEmployeeById(Long id,
                             String username,
                             String email,
                             String password,
+                            String name,
+                            String surname,
                             LocalDateTime lastUpdateDate);
 }
-
