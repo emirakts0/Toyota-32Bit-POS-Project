@@ -53,6 +53,7 @@ public class UserManagementServiceImpl implements UserManagementService {
             employeeRepository.save(employee);
             log.info("registerEmployee: Registered employee, ID : {}, username : {}", employee.getId(), employee.getUsername());
         }
+        log.info("registerEmployee: All employees registered, size: {}", registerRequestDtoSet.size());
 
         log.trace("registerEmployee method ends. registerRequestDtoSet size: {}", registerRequestDtoSet.size());
         return registerRequestDtoSet;
