@@ -6,6 +6,7 @@ import com.productservice.dto.ProductSearchCriteria;
 import com.productservice.service.ProductSearchService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @Validated
+@Slf4j
 @RequestMapping("/product/search")
 public class ProductSearchController {
 
@@ -24,6 +26,7 @@ public class ProductSearchController {
 
     @GetMapping("/{barcode}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable String barcode) {
+        log.trace("getProduct endpoint called for barcode: {}", barcode);
 
         ProductDto productDto = productSearchService.getProductByBarcode(barcode);
         return ResponseEntity.ok().body(productDto);
@@ -36,6 +39,8 @@ public class ProductSearchController {
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "1") int pageNumber,
             @RequestParam(defaultValue = "true") boolean hideDeleted) {
+        log.trace("getProductsByPrefix endpoint called with prefix: {}, pageSize: {}, pageNumber: {}, hideDeleted: {}",
+                prefix, pageSize, pageNumber, hideDeleted);
 
         Page<ProductDto> productsPage = productSearchService.getProductsByPrefix(prefix,
                 pageSize,
@@ -48,13 +53,16 @@ public class ProductSearchController {
     @GetMapping("/filter")
     public ResponseEntity<Page<ProductDto>> getProductsByFilterAndPagination(@RequestBody
                                                                              @Valid ProductSearchCriteria productSearchCriteria){
+        log.trace("getProductsByFilterAndPagination endpoint called with search criteria: {}", productSearchCriteria);
+
         Page<ProductDto> productPage = productSearchService.getProductsByCriteria(productSearchCriteria);
         return ResponseEntity.ok(productPage);
     }
 
 
     @GetMapping("/image/{imageCode}")
-    public ResponseEntity<byte[]> getImageById(@PathVariable Long imageCode) {
+    public ResponseEntity<byte[]> getImageByImageCode(@PathVariable Long imageCode) {
+        log.trace("getImageByImageCode endpoint called for imageCode: {}", imageCode);
 
         ImageDto imageDto = productSearchService.getProductImageByImageCode(imageCode);
         return ResponseEntity.ok()
