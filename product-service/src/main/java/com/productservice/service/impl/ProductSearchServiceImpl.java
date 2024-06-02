@@ -14,6 +14,7 @@ import com.productservice.service.ProductSearchService;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductSearchServiceImpl implements ProductSearchService {
@@ -41,10 +43,22 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     @Transactional
     @Override
     public ProductDto getProductByBarcode(String barcode) {
+        log.trace("getProductByBarcode method begins. Barcode: {}", barcode);
 
         Product product = productRepository.findByBarcodeAndDeletedFalse(barcode)
-                .orElseThrow(() -> new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)));
-        return modelMapper.map(product, ProductDto.class);
+                .orElseThrow(() -> {
+                    log.warn("getProductByBarcode: Product with barcode {} not found", barcode);
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
+                });
+
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        if (product.getImage() != null) {
+            productDto.setImageCode(product.getImage().getImageCode());
+        }
+        log.info("getProductByBarcode: Found product with barcode {}", barcode);
+
+        log.trace("getProductByBarcode method ends. Barcode: {}", barcode);
+        return productDto;
     }
 
 
@@ -54,12 +68,19 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                                                 int pageSize,
                                                 int pageNumber,
                                                 boolean hideDeleted) {
+        log.trace("getProductsByPrefix method begins. Prefix: {}, PageSize: {}, PageNumber: {}, HideDeleted: {}",
+                prefix, pageSize, pageNumber, hideDeleted);
 
         if (prefix == null || prefix.trim().isEmpty() || !prefix.matches("^[\\p{L}\\s]+$")) {
-            throw new InvalidInputException("Prefix must be non-empty and contain only letters.");}
+            log.warn("getProductsByPrefix: Invalid prefix provided: {}", prefix);
+            throw new InvalidInputException("Prefix must be non-empty and contain only letters.");
+        }
         if (pageSize < 1) {
-            throw new InvalidInputException("Minimum page size is 1");}
+            log.warn("getProductsByPrefix: Invalid page size provided: {}", pageSize);
+            throw new InvalidInputException("Minimum page size is 1");
+        }
         if (pageNumber < 1) {
+            log.warn("getProductsByPrefix: Invalid page number provided: {}", pageNumber);
             throw new InvalidInputException("Page number must be at least 1");
         }
 
@@ -69,30 +90,51 @@ public class ProductSearchServiceImpl implements ProductSearchService {
                 ? productRepository.findByNameStartingWithIgnoreCaseAndDeletedFalse(prefix, pageable)
                 : productRepository.findByNameStartingWithIgnoreCase(prefix, pageable);
 
-        return productPage.map(product -> modelMapper.map(product, ProductDto.class));
+        log.info("getProductsByPrefix: Found {} products with prefix {}", productPage.getTotalElements(), prefix);
+
+        log.trace("getProductsByPrefix method ends. Prefix: {}, PageSize: {}, PageNumber: {}, HideDeleted: {}",
+                prefix, pageSize, pageNumber, hideDeleted);
+        return productPage.map(product -> {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            if (product.getImage() != null) {
+                productDto.setImageCode(product.getImage().getImageCode());
+            }
+            return productDto;
+        });
     }
 
 
     @Transactional
     @Override
     public ImageDto getProductImageByImageCode(Long imageCode){
+        log.trace("getProductImageByImageCode method begins. ImageCode: {}", imageCode);
 
         Image image = imageRepository.findByImageCodeAndDeletedFalse(imageCode)
-                .orElseThrow(() -> new ImageNotFoundException(String.format("Image with Code %d not found.", imageCode)));
-
+                .orElseThrow(() -> {
+                    log.warn("getProductImageByImageCode: Image with code {} not found", imageCode);
+                    return new ImageNotFoundException(String.format("Image with Code %d not found.", imageCode));
+                });
 
         Product product = productRepository.findByImageCode(imageCode)
-                .orElseThrow(() -> new ProductNotFoundException(String.format("Image with Code %d does not belong to any product.", imageCode)));
-        if (product.isDeleted()){
+                .orElseThrow(() -> {
+                    log.warn("getProductImageByImageCode: Image with code {} does not belong to any product", imageCode);
+                    return new ProductNotFoundException(String.format("Image with Code %d does not belong to any product.", imageCode));
+                });
+
+        if (product.isDeleted()) {
+            log.warn("getProductImageByImageCode: Product with image code {} is marked as deleted", imageCode);
             throw new ProductNotFoundException(String.format("Product with image code %d not found", imageCode));
         }
+        log.info("getProductImageByImageCode: Found image with code {}", imageCode);
 
+        log.trace("getProductImageByImageCode method ends. ImageCode: {}", imageCode);
         return modelMapper.map(image, ImageDto.class);
     }
 
 
     @Override
     public Page<ProductDto> getProductsByCriteria(ProductSearchCriteria criteria) {
+        log.trace("getProductsByCriteria method begins. Criteria: {}", criteria);
 
         Pageable pageable = PageRequest.of(
                 criteria.getPage() - 1,
@@ -142,17 +184,36 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        Page<Product> productsPage = productRepository.findAll(specification, pageable);
-        return productsPage.map(product -> modelMapper.map(product, ProductDto.class));
+        Page<Product> productPage = productRepository.findAll(specification, pageable);
+
+        log.info("getProductsByCriteria: Found {} products with given criteria", productPage.getTotalElements());
+        log.trace("getProductsByCriteria method ends. Criteria: {}", criteria);
+
+        return productPage.map(product -> {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            if (product.getImage() != null) {
+                productDto.setImageCode(product.getImage().getImageCode());
+            }
+            return productDto;
+        });
     }
 
+
     private LocalDateTime parseDate(String dateStr) {
+        log.trace("parseDate method begins. DateStr: {}", dateStr);
+
         if (dateStr == null) {
+            log.debug("parseDate: Date string is null, returning null.");
             return null;
         }
+
         try {
-            return LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime parsedDate = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            log.debug("parseDate: Successfully parsed date string: {} to LocalDateTime: {}", dateStr, parsedDate);
+            log.trace("parseDate method ends. DateStr: {}", dateStr);
+            return parsedDate;
         } catch (DateTimeParseException e) {
+            log.warn("parseDate: Invalid date format for date string: {}", dateStr);
             throw new InvalidInputException("Date must be in the format 'yyyy-MM-ddTHH:mm:ss'");
         }
     }
