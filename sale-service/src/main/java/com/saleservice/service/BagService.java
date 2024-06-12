@@ -1,7 +1,11 @@
 package com.saleservice.service;
 
-public interface BagService {
+import com.saleservice.dto.BagDto;
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 
+
+public interface BagService {
 
     @Transactional
     BagDto addProductToBag(Long bagId, String barcode, int quantity);  //String userId alabilir parametre

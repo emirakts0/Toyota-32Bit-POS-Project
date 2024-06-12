@@ -1,5 +1,9 @@
 package com.saleservice.service;
 
+import com.saleservice.dto.CampaignDto;
+import com.saleservice.dto.CampaignResponseDto;
+import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 
 public interface CampaignService {
 
