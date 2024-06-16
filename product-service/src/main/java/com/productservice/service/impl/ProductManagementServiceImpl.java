@@ -2,14 +2,13 @@ package com.productservice.service.impl;
 
 import com.productservice.dto.ProductCreateRequestDto;
 import com.productservice.dto.UpdateProductRequestDto;
-import com.productservice.exception.*;
 import com.productservice.model.Image;
 import com.productservice.model.Product;
 import com.productservice.repository.ImageRepository;
 import com.productservice.repository.ProductRepository;
 import com.productservice.service.ProductManagementService;
+import com.productservice.exception.*;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +31,8 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
     private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
+    //@PersistenceContext
+    private final EntityManager entityManager;
     private final ModelMapper modelMapper;
 
 
@@ -71,7 +70,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
                 product.setImage(image);
                 product.setHasImage(true);
             } catch (IOException e) {
-                log.error("addProduct: Failed to process image file", e);
+                log.warn("addProduct: Failed to process image file", e);
                 throw new ImageProcessingException("Failed to process image file");
             }
         }
@@ -120,7 +119,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
             entityManager.refresh(product);
         }
 
-        updateProductImage(barcode, file);
+        updateProductImage(product, file);
         log.info("updateProduct: Product updated successfully with barcode {}", barcode);
 
         log.trace("updateProduct method ends. Barcode: {}, Request: {}", barcode, updateProductRequestDto);
@@ -254,18 +253,12 @@ public class ProductManagementServiceImpl implements ProductManagementService {
     }
 
 
-    //--------------------------------------------------------------------------------------------------------------
 
-    public void updateProductImage(String barcode, MultipartFile file){
-        log.trace("updateProductImage method begins. Barcode: {}", barcode);
+
+    private void updateProductImage(Product product, MultipartFile file){
+        log.trace("updateProductImage method begins. product: {}", product);
 
         if (file != null && !file.isEmpty()) {
-            Product product = productRepository.findByBarcodeAndDeletedFalse(barcode)
-                    .orElseThrow(() -> {
-                        log.warn("updateProductImage: Product with barcode {} not found", barcode);
-                        return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                    });
-
             if (product.getImage() != null) {
 
                 Image image = product.getImage();
@@ -283,16 +276,14 @@ public class ProductManagementServiceImpl implements ProductManagementService {
                 product.setImage(newImage);
                 product.setHasImage(true);
             } catch (IOException e) {
-                log.error("updateProductImage: Failed to process image file", e);
+                log.warn("updateProductImage: Failed to process image file", e);
                 throw new ImageProcessingException("Failed to process image file");
             }
 
             product.setLastUpdateDate(LocalDateTime.now());
             productRepository.save(product);
-            log.info("updateProductImage: Image updated for product with barcode {}", barcode);
+            log.info("updateProductImage: Image updated for product with barcode {}", product.getBarcode());
         }
-
-        log.trace("updateProductImage method ends. Barcode: {}", barcode);
+        log.trace("updateProductImage method ends. product: {}", product);
     }
-
 }
