@@ -3,6 +3,7 @@ package com.reportingservice.service.impl;
 import com.reportingservice.dto.ReceiptMessage;
 import com.reportingservice.dto.SaleDto;
 import com.reportingservice.dto.SaleSearchCriteria;
+import com.reportingservice.dto.SaleSearchCriteriaWithPagination;
 import com.reportingservice.exception.InvalidInputException;
 import com.reportingservice.exception.SaleNotFoundException;
 import com.reportingservice.model.Sale;
@@ -27,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -69,8 +71,23 @@ public class SaleReportingServiceImpl implements SaleReportingService {
     }
 
     @Override
-    public Page<SaleDto> getSalesByCriteria(SaleSearchCriteria criteria) {
+    public List<SaleDto> getSalesByCriteria(SaleSearchCriteria criteria) {
         log.trace("getSalesByCriteria method begins. Criteria: {}", criteria);
+
+        Specification<Sale> specification = buildSpecification(criteria);
+        List<Sale> sales = saleRepository.findAll(specification);
+
+        List<SaleDto> saleDtos = sales.stream()
+                .map(sale -> modelMapper.map(sale, SaleDto.class))
+                .collect(Collectors.toList());
+
+        log.trace("getSalesByCriteria method ends. Criteria: {}", criteria);
+        return saleDtos;
+    }
+
+    @Override
+    public Page<SaleDto> getSalesByCriteriaWithPagination(SaleSearchCriteriaWithPagination criteria) {
+        log.trace("getSalesByCriteriaWithPagination method begins. Criteria: {}", criteria);
 
         Pageable pageable = PageRequest.of(
                 criteria.getPage() - 1,
@@ -79,17 +96,31 @@ public class SaleReportingServiceImpl implements SaleReportingService {
                                 ? Sort.Direction.DESC : Sort.Direction.ASC,
                         criteria.getSortBy()));
 
-        LocalDateTime saleDateStart = parseDate(criteria.getSaleDateStart());
-        LocalDateTime saleDateEnd = parseDate(criteria.getSaleDateEnd());
+        SaleSearchCriteria criteria1 = modelMapper.map(criteria, SaleSearchCriteria.class);
+        Specification<Sale> specification = buildSpecification(criteria1);
+        Page<Sale> salesPage = saleRepository.findAll(specification, pageable);
+
+        Page<SaleDto> saleDtoPage = salesPage.map(sale -> modelMapper.map(sale, SaleDto.class));
+
+        log.info("getSalesByCriteriaWithPagination: Retrieved {} sales matching criteria", saleDtoPage.getTotalElements());
+        log.trace("getSalesByCriteriaWithPagination method ends. Criteria: {}", criteria);
+        return saleDtoPage;
+    }
+
+
+    private Specification<Sale> buildSpecification(SaleSearchCriteria criteria) {
+        log.trace("buildSpecification method begins. Criteria: {}", criteria);
 
         Specification<Sale> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (criteria.getMinTotalPrice() != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("totalPrice"), criteria.getMinTotalPrice()));}
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("totalPrice"), criteria.getMinTotalPrice()));
+            }
 
             if (criteria.getMaxTotalPrice() != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("totalPrice"), criteria.getMaxTotalPrice()));}
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("totalPrice"), criteria.getMaxTotalPrice()));
+            }
 
             if (criteria.getHasCampaign() != null) {
                 if (criteria.getHasCampaign()) {
@@ -100,40 +131,41 @@ public class SaleReportingServiceImpl implements SaleReportingService {
             }
 
             if (criteria.getCampaignId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("campaignId"), criteria.getCampaignId()));}
+                predicates.add(criteriaBuilder.equal(root.get("campaignId"), criteria.getCampaignId()));
+            }
 
             if (criteria.getPaymentMethod() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("paymentMethod"), criteria.getPaymentMethod()));}
-
-            if (saleDateStart != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("saleDate"), saleDateStart));}
-
-            if (saleDateEnd != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("saleDate"), saleDateEnd));}
+                predicates.add(criteriaBuilder.equal(root.get("paymentMethod"), criteria.getPaymentMethod()));
+            }
 
             if (criteria.getIncludeCanceled() != null) {
                 if (!criteria.getIncludeCanceled()) {
                     predicates.add(criteriaBuilder.isFalse(root.get("isCancelled")));
                 }
             }
+
+            if (criteria.getSaleDateStart() != null) {
+                LocalDateTime saleDateStart = parseDate(criteria.getSaleDateStart());
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("saleDate"), saleDateStart));
+            }
+
+            if (criteria.getSaleDateEnd() != null) {
+                LocalDateTime saleDateEnd = parseDate(criteria.getSaleDateEnd());
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("saleDate"), saleDateEnd));
+            }
+
+            log.trace("buildSpecification method ends. Criteria: {}", criteria);
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
-        Page<Sale> salesPage = saleRepository.findAll(specification, pageable);
-        Page<SaleDto> saleDtoPage = salesPage.map(sale -> modelMapper.map(sale, SaleDto.class));
-        log.info("getSalesByCriteria: Retrieved {} sales matching criteria", saleDtoPage.getTotalElements());
-
-        log.trace("getSalesByCriteria method ends. Criteria: {}", criteria);
-        return saleDtoPage;
+        log.trace("buildSpecification method ends. Criteria: {}", criteria);
+        return specification;
     }
 
 
     private LocalDateTime parseDate(String dateStr) {
         log.trace("parseDate method begins. DateStr: {}", dateStr);
 
-        if (dateStr == null) {
-            return null;
-        }
         try {
             LocalDateTime parsedDate = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             log.trace("parseDate: Parsed date successfully. DateStr: {}, ParsedDate: {}", dateStr, parsedDate);

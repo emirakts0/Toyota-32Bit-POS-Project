@@ -2,8 +2,12 @@ package com.reportingservice.controller;
 
 import com.reportingservice.dto.SaleDto;
 import com.reportingservice.dto.SaleSearchCriteria;
+import com.reportingservice.dto.SaleSearchCriteriaWithPagination;
+import com.reportingservice.service.ExcelService;
 import com.reportingservice.service.SaleReportingService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReportingController {
 
     private final SaleReportingService saleReportingService;
+    private final ExcelService excelService;
 
     @PostMapping("/generate-receipt/{saleId}")
     public ResponseEntity<String> generateReceipt(@PathVariable Long saleId) {
@@ -38,10 +43,20 @@ public class ReportingController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<SaleDto>> getSalesByCriteria(@RequestBody @Valid SaleSearchCriteria criteria) {
+    public ResponseEntity<Page<SaleDto>> getSalesByCriteriaWithPagination(
+            @RequestBody @Valid SaleSearchCriteriaWithPagination criteria) {
         log.trace("getSalesByCriteria endpoint called with criteria: {}", criteria);
 
-        Page<SaleDto> salePage = saleReportingService.getSalesByCriteria(criteria);
+        Page<SaleDto> salePage = saleReportingService.getSalesByCriteriaWithPagination(criteria);
         return ResponseEntity.ok().body(salePage);
+    }
+
+    @GetMapping("/excel")
+    public ResponseEntity<String> getExcelReport(@RequestBody @Valid SaleSearchCriteria criteria,
+                                                 @RequestParam @Email @NotBlank String email) {
+        log.trace("getExcelReport endpoint called for excel");
+
+        excelService.enqueueExcelReportRequest(criteria, email);
+        return ResponseEntity.ok("Excel report request received. The report will be sent to: " + email);
     }
 }

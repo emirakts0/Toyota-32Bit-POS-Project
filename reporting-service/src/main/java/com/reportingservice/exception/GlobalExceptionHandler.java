@@ -5,21 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    //TODO: NOT FOUND VE BAD REQUESTİ AYIR.
 
     @ExceptionHandler(value = { NotFoundException.class,
                                 InvalidInputException.class,
                                 ReceiptDataIsNullException.class,
-                                SaleNotFoundException.class})
+                                SaleNotFoundException.class,
+                                JsonException.class})
     public ResponseEntity<Object> responseEntity(RuntimeException e){
 
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
