@@ -4,12 +4,13 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 
 @Configuration
 public class RabbitMqConfig {
@@ -18,9 +19,14 @@ public class RabbitMqConfig {
     @Value("${receipt.rabbitmq.queue}") String receiptQueueName;
     @Value("${receipt.rabbitmq.routingKey}") String receiptRoutingKey;
 
-    @Value("${rabbitmq.event.exchange}") String eventExchange;
-    @Value("${rabbitmq.event.queue}") String eventQueueName;
-    @Value("${rabbitmq.event.routingKey}") String eventRoutingKey;
+    @Value("${event.rabbitmq.exchange}") String eventExchange;
+    @Value("${event.rabbitmq.queue}") String eventQueueName;
+    @Value("${event.rabbitmq.routingKey}") String eventRoutingKey;
+
+    @Value("${excel.rabbitmq.exchange}") String excelExchange;
+    @Value("${excel.rabbitmq.queue}") String excelQueueName;
+    @Value("${excel.rabbitmq.routingKey}") String excelRoutingKey;
+
 
     @Bean
     DirectExchange receiptExchange() { return new DirectExchange(receiptExchange); }
@@ -29,7 +35,6 @@ public class RabbitMqConfig {
     @Bean
     Binding receiptBinding(Queue receiptQueue, DirectExchange receiptExchange){
         return BindingBuilder.bind(receiptQueue).to(receiptExchange).with(receiptRoutingKey); }
-
 
     @Bean
     DirectExchange eventExchange() { return new DirectExchange(eventExchange); }
@@ -40,7 +45,25 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(eventQueue).to(eventExchange).with(eventRoutingKey);}
 
     @Bean
+    DirectExchange excelExchange() { return new DirectExchange(excelExchange); }
+    @Bean
+    Queue excelQueue() { return new Queue(excelQueueName, false); }
+    @Bean
+    Binding excelBinding(Queue excelQueue, DirectExchange excelExchange) {
+        return BindingBuilder.bind(excelQueue).to(excelExchange).with(excelRoutingKey); }
+
+
+    @Bean
     public MessageConverter jsonMessageConverter(){
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory, MessageConverter jsonMessageConverter) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(jsonMessageConverter);
+        //factory.setDefaultRequeueRejected(false);
+        return factory;
     }
 }

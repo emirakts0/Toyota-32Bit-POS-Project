@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -38,6 +37,7 @@ public class ExcelServiceImpl implements ExcelService {
         log.trace("generateSalesExcelReport method ends. Criteria: {}", criteria);
         return byteArrayInputStream;
     }
+
 
     @Override
     public void enqueueExcelReportRequest(SaleSearchCriteria criteria, String email) {

@@ -20,6 +20,7 @@ public class ReceiptTrackingController {
 
     private final ReceiptTrackingService receiptTrackingService;
 
+
     @GetMapping("/receipt/{requestId}")
     public ResponseEntity<?> getReceiptStatus(@PathVariable String requestId) {
         log.trace("getReceiptStatus endpoint called for requestId: {}", requestId);

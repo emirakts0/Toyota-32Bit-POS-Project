@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -44,6 +43,7 @@ public class SaleReportingServiceImpl implements SaleReportingService {
     @Value("${receipt.rabbitmq.queue}")
     private String queueName;
 
+
     @Override
     public String generateReceiptById(Long id) {
         log.trace("generateReceiptById method begins. SaleId: {}", id);
@@ -55,6 +55,7 @@ public class SaleReportingServiceImpl implements SaleReportingService {
         log.trace("generateReceiptById method ends. SaleId: {}", id);
         return requestId;
     }
+
 
     @Override
     public SaleDto getSaleById(Long saleId) {
@@ -70,6 +71,7 @@ public class SaleReportingServiceImpl implements SaleReportingService {
         return saleDto;
     }
 
+
     @Override
     public List<SaleDto> getSalesByCriteria(SaleSearchCriteria criteria) {
         log.trace("getSalesByCriteria method begins. Criteria: {}", criteria);
@@ -84,6 +86,7 @@ public class SaleReportingServiceImpl implements SaleReportingService {
         log.trace("getSalesByCriteria method ends. Criteria: {}", criteria);
         return saleDtos;
     }
+
 
     @Override
     public Page<SaleDto> getSalesByCriteriaWithPagination(SaleSearchCriteriaWithPagination criteria) {

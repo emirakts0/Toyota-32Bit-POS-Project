@@ -21,6 +21,7 @@ public class ReceiptTrackingServiceImpl implements ReceiptTrackingService {
     private final ModelMapper modelMapper;
     private static final long EXPIRATION_TIME = 300L;  // in seconds
 
+
     @Override
     @Transactional
     public String initializeReceiptCache(Long saleId, String eventId) {
@@ -45,6 +46,7 @@ public class ReceiptTrackingServiceImpl implements ReceiptTrackingService {
         return requestId;
     }
 
+
     @Override
     @Transactional
     public void updateReceiptStatus(String requestId, String status, byte[] receiptData) {
@@ -63,6 +65,7 @@ public class ReceiptTrackingServiceImpl implements ReceiptTrackingService {
 
         log.trace("updateReceiptStatus method ends. RequestId: {}", requestId);
     }
+
 
     @Override
     public ReceiptDto getReceiptStatus(String requestId) {

@@ -1,13 +1,15 @@
 package com.reportingservice.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
-public class ModelMapperConfig {
+public class AppConfig {
 
     @Bean
     public ModelMapper getModelMapper(){
@@ -15,5 +17,12 @@ public class ModelMapperConfig {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         return modelMapper;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+        ObjectMapper objectMapper = builder.build();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 }

@@ -9,7 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Consumer class for handling receipt messages from RabbitMQ queues.
+ * Processes messages to generate PDF receipts and track their status.
+ * @author Emir Aktaş
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class ReceiptConsumer {
     private final ReceiptTrackingService receiptTrackingService;
 
 
+    /**
+     * Consumes receipt messages from the RabbitMQ queue and generates a PDF receipt.
+     *
+     * @param message the receipt message containing sale details and request ID
+     */
     @RabbitListener(queues = "${receipt.rabbitmq.queue}")
     public void consumeReceiptMessage(ReceiptMessage message) {
         log.trace("consumeReceiptMessage method begins. RequestId: {}", message.getRequestId());
@@ -27,8 +36,8 @@ public class ReceiptConsumer {
         SaleDto saleDto = message.getSaleDto();
 
         try {
-            //TODO: remove. (Simulating delay for processing)
-            Thread.sleep(10000);
+
+            Thread.sleep(10000);  //TODO: (Simulating delay for processing for presentation)
 
             byte[] receiptBytes = pdfGenerationService.generateReceiptPDF(saleDto);
             receiptTrackingService.updateReceiptStatus(requestId, "COMPLETED", receiptBytes);
@@ -41,6 +50,12 @@ public class ReceiptConsumer {
         log.trace("consumeReceiptMessage method ends. RequestId: {}", requestId);
     }
 
+
+    /**
+     * Consumes event messages from the RabbitMQ event queue to initialize receipt cache.
+     *
+     * @param message the event message containing sale ID and event ID
+     */
     @RabbitListener(queues = "${event.rabbitmq.queue}")
     public void consumeEventMessage(String message) {
         log.trace("consumeEventMessage method begins. Message: {}", message);
@@ -56,5 +71,3 @@ public class ReceiptConsumer {
         log.trace("consumeEventMessage method ends. Message: {}", message);
     }
 }
-
-

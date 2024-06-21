@@ -18,7 +18,10 @@ import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-
+/**
+ * Utility class for generating PDF receipts.
+ * @author Emir Aktaş
+ */
 public class PdfReceiptGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(PdfReceiptGenerator.class);
@@ -34,6 +37,13 @@ public class PdfReceiptGenerator {
     private static final int FONT_SIZE = 10;
 
 
+    /**
+     * Creates a PDF receipt for a given sale and market information.
+     *
+     * @param saleDto   the sale data transfer object containing sale details
+     * @param marketInfo the market information to be included in the receipt
+     * @return a byte array representing the PDF receipt
+     */
     public static byte[] createReceipt(SaleDto saleDto, MarketInfo marketInfo) {
         log.trace("createReceipt method begins. SaleDto: {}, MarketInfo: {}", saleDto, marketInfo);
 
@@ -284,6 +294,14 @@ public class PdfReceiptGenerator {
         }
     }
 
+
+    /**
+     * Truncates a given text to a specified maximum length, adding ellipsis if truncated.
+     *
+     * @param text      the text to truncate
+     * @param maxLength the maximum length of the truncated text
+     * @return the truncated text with ellipsis if necessary
+     */
     private static String truncateText(String text, int maxLength) {
         if (text.length() > maxLength) {
             String truncatedText = text.substring(0, maxLength - 3) + "...";
@@ -294,7 +312,22 @@ public class PdfReceiptGenerator {
         }
     }
 
-    private static void drawCenteredText(PDPageContentStream contentStream, PDType0Font font, String text, int fontSize, float yPosition) throws IOException {
+
+    /**
+     * Draws centered text at a specified Y position on the receipt.
+     *
+     * @param contentStream the content stream to draw on
+     * @param font          the font to use for the text
+     * @param text          the text to draw
+     * @param fontSize      the font size of the text
+     * @param yPosition     the Y position to draw the text at
+     * @throws IOException if an error occurs while drawing the text
+     */
+    private static void drawCenteredText(PDPageContentStream contentStream,
+                                         PDType0Font font,
+                                         String text,
+                                         int fontSize,
+                                         float yPosition) throws IOException {
         float titleWidth = font.getStringWidth(text) / 1000 * fontSize;
         float startX = (RECEIPT_WIDTH_MM * POINTS_PER_MM - titleWidth) / 2;
         contentStream.beginText();
@@ -304,7 +337,3 @@ public class PdfReceiptGenerator {
         contentStream.endText();
     }
 }
-
-
-
-

@@ -15,24 +15,40 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = { NotFoundException.class,
-                                InvalidInputException.class,
+                                SaleNotFoundException.class })
+    public ResponseEntity<Object> handleNotFoundExceptions(RuntimeException e) {
+        return buildResponseEntity(e, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(value = { InvalidInputException.class,
                                 ReceiptDataIsNullException.class,
-                                SaleNotFoundException.class,
-                                JsonException.class})
-    public ResponseEntity<Object> responseEntity(RuntimeException e){
+                                JobCancellationException.class,
+                                JobSchedulingException.class,
+                                JobListingException.class,
+                                JsonException.class })
+    public ResponseEntity<Object> handleBadRequestExceptions(RuntimeException e) {
+        return buildResponseEntity(e, HttpStatus.BAD_REQUEST);
+    }
 
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
+    @ExceptionHandler(JobAlreadyExistsException.class)
+    public ResponseEntity<Object> handleConflictExceptions(JobAlreadyExistsException e) {
+        return buildResponseEntity(e, HttpStatus.CONFLICT);
+    }
+
+
+    private ResponseEntity<Object> buildResponseEntity(RuntimeException e, HttpStatus status) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 e.getMessage(),
-                badRequest,
+                status,
                 LocalDateTime.now()
         );
 
         log.error("Exception: {} - Message: {}", e.getClass().getSimpleName(), e.getMessage(), e);
 
         return ResponseEntity
-                .status(badRequest)
+                .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(exceptionResponse);
     }

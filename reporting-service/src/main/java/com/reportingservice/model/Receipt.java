@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.TimeToLive;
 
 import java.io.Serializable;
 
-
 @Getter
 @Setter
 @AllArgsConstructor

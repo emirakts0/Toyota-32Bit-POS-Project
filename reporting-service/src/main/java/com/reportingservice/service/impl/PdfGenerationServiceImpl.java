@@ -21,6 +21,7 @@ public class PdfGenerationServiceImpl implements PdfGenerationService {
     @Value("${market.city}")
     private String marketCity;
 
+
     @Override
     public byte[] generateReceiptPDF(SaleDto saleDto) {
         log.trace("generateReceipt method begins. SaleDto: {}", saleDto);

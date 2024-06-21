@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -44,6 +43,6 @@ public class Sale {
     private LocalDateTime saleDate;
     private boolean isCancelled;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<SaleItem> saleItems = new ArrayList<>();
 }

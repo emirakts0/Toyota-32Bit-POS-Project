@@ -17,6 +17,11 @@ import java.io.ByteArrayInputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Consumer class for handling Excel report messages from RabbitMQ queue.
+ * Processes messages to generate and send Excel reports via email, with retry logic for failures.
+ * @author Emir Aktaş
+ */
 @Slf4j
 @Component
 public class ExcelReportConsumer {
@@ -31,11 +36,15 @@ public class ExcelReportConsumer {
 
     @Value("${excel.rabbitmq.queue}")
     private String queueName;
-
     @Value("${retry.limit}")
     private int retryLimit;
 
 
+    /**
+     * Consumes Excel report messages from the RabbitMQ queue.
+     *
+     * @param message the Excel report message containing report criteria and email address
+     */
     @RabbitListener(queues = "${excel.rabbitmq.queue}", containerFactory = "rabbitListenerContainerFactory")
     public void consumeExcelMessage(ExcelReportMessage message) {
         log.trace("consumeExcelMessage method begins. Email: {}", message.getMail());
@@ -61,6 +70,12 @@ public class ExcelReportConsumer {
         log.trace("consumeExcelMessage method ends. Email: {}", mail);
     }
 
+
+    /**
+     * Processes retry logic for failed messages.
+     *
+     * @param message the Excel report message
+     */
     private void processRetry(ExcelReportMessage message) {
         log.trace("processRetry method begins. retryCount: {}", message.getRetryCount());
 
@@ -76,6 +91,12 @@ public class ExcelReportConsumer {
         log.trace("processRetry method ends. retryCount: {}", message.getRetryCount());
     }
 
+
+    /**
+     * Requeues the message with a delay.
+     *
+     * @param message the Excel report message
+     */
     @Async
     public void requeueMessageWithDelay(ExcelReportMessage message) {
         taskExecutor.execute(() -> {
@@ -96,10 +117,17 @@ public class ExcelReportConsumer {
         });
     }
 
+
+    /**
+     * Handles the failed message after reaching the maximum retry limit.
+     *
+     * @param message the Excel report message
+     */
     private void handleFailedMessage(ExcelReportMessage message) {
         log.error("handleFailedMessage: Handling failed message after max retries for email {}: {}", message.getMail(), message);
         emailService.sendEmail(message.getMail(), "Failed to generate Excel report", "Failed to generate Excel report after multiple attempts.");
     }
+
 
     public ExcelReportConsumer(ExcelService excelService, EmailService emailService, AmqpTemplate rabbitTemplate) {
         this.excelService = excelService;
@@ -107,4 +135,3 @@ public class ExcelReportConsumer {
         this.rabbitTemplate = rabbitTemplate;
     }
 }
-

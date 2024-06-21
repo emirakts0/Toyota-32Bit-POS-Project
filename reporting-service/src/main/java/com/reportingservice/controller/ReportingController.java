@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +25,7 @@ public class ReportingController {
     private final SaleReportingService saleReportingService;
     private final ExcelService excelService;
 
+
     @PostMapping("/generate-receipt/{saleId}")
     public ResponseEntity<String> generateReceipt(@PathVariable Long saleId) {
         log.trace("generateReceipt endpoint called for saleId: {}", saleId);
@@ -33,6 +33,7 @@ public class ReportingController {
         String requestId = saleReportingService.generateReceiptById(saleId);
         return ResponseEntity.ok("Tracking request id: " + requestId);
     }
+
 
     @GetMapping("/{saleId}")
     public ResponseEntity<SaleDto> getSaleById(@PathVariable Long saleId) {
@@ -42,6 +43,7 @@ public class ReportingController {
         return ResponseEntity.ok().body(saleDto);
     }
 
+
     @GetMapping
     public ResponseEntity<Page<SaleDto>> getSalesByCriteriaWithPagination(
             @RequestBody @Valid SaleSearchCriteriaWithPagination criteria) {
@@ -50,6 +52,7 @@ public class ReportingController {
         Page<SaleDto> salePage = saleReportingService.getSalesByCriteriaWithPagination(criteria);
         return ResponseEntity.ok().body(salePage);
     }
+
 
     @GetMapping("/excel")
     public ResponseEntity<String> getExcelReport(@RequestBody @Valid SaleSearchCriteria criteria,

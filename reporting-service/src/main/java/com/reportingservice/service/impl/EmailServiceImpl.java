@@ -50,6 +50,7 @@ public class EmailServiceImpl implements EmailService {
         log.trace("sendEmailWithAttachment method ends. to: {}, subject: {}, body: {}, filename: {}", to, subject, body, attachmentFilename);
     }
 
+
     @Override
     public void sendEmail(String email,
                           String subject,

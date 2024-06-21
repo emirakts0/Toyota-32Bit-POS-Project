@@ -15,12 +15,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
-
+/**
+ * Utility class for generating Excel reports for sales data.
+ * @author Emir Aktaş
+ */
 public class ExcelReportGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(ExcelReportGenerator.class);
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd   HH:mm:ss");
 
+
+    /**
+     * Generates an Excel file containing sales data.
+     *
+     * @param sales the list of sales to be included in the report
+     * @return a ByteArrayInputStream containing the Excel file data
+     */
     public static ByteArrayInputStream generateSalesExcelFile(List<SaleDto> sales) {
         log.trace("createExcel method begins. Number of sales: {}", sales.size());
 
@@ -119,6 +129,14 @@ public class ExcelReportGenerator {
     }
 
 
+    /**
+     * Sets up the header row for a given sheet.
+     *
+     * @param headers    the headers to be added to the sheet
+     * @param headerRow  the row to add the headers to
+     * @param headerStyle the style to apply to the headers
+     * @param sheet      the sheet to add the headers to
+     */
     private static void setupSheetHeader(String[] headers, Row headerRow, CellStyle headerStyle, Sheet sheet) {
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -131,6 +149,15 @@ public class ExcelReportGenerator {
         }
     }
 
+
+    /**
+     * Creates a cell in a given row and column with a specified value and style.
+     *
+     * @param row    the row to add the cell to
+     * @param column the column to add the cell to
+     * @param value  the value to set in the cell
+     * @param style  the style to apply to the cell
+     */
     private static void createCell(Row row, int column, Object value, CellStyle style) {
         Cell cell = row.createCell(column);
         if (value instanceof String) {
@@ -145,6 +172,12 @@ public class ExcelReportGenerator {
         cell.setCellStyle(style);
     }
 
+
+    /**
+     * Sets borders for a given cell style.
+     *
+     * @param style the cell style to set borders for
+     */
     private static void setBorders(CellStyle style) {
 //        style.setBorderTop(BorderStyle.THIN);
 //        style.setBorderBottom(BorderStyle.THIN);
