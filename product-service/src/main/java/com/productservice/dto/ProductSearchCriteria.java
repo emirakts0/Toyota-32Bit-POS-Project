@@ -1,6 +1,5 @@
 package com.productservice.dto;
 
-
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

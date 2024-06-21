@@ -1,5 +1,6 @@
 package com.productservice.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class ValidationHandler extends ResponseEntityExceptionHandler {
 
@@ -27,6 +29,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
+            log.warn("Validation error in field: {} - Message: {}", fieldName, message);
         });
         return new ResponseEntity<Object>(errors, HttpStatus.BAD_REQUEST);
     }

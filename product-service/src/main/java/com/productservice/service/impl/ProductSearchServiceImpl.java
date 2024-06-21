@@ -48,8 +48,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         Product product = productRepository.findByBarcodeAndDeletedFalse(barcode)
                 .orElseThrow(() -> {
                     log.warn("getProductByBarcode: Product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)); });
 
         ProductDto productDto = modelMapper.map(product, ProductDto.class);
         if (product.getImage() != null) {
@@ -112,14 +111,12 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         Image image = imageRepository.findByImageCodeAndDeletedFalse(imageCode)
                 .orElseThrow(() -> {
                     log.warn("getProductImageByImageCode: Image with code {} not found", imageCode);
-                    return new ImageNotFoundException(String.format("Image with Code %d not found.", imageCode));
-                });
+                    return new ImageNotFoundException(String.format("Image with Code %d not found.", imageCode)); });
 
         Product product = productRepository.findByImageCode(imageCode)
                 .orElseThrow(() -> {
                     log.warn("getProductImageByImageCode: Image with code {} does not belong to any product", imageCode);
-                    return new ProductNotFoundException(String.format("Image with Code %d does not belong to any product.", imageCode));
-                });
+                    return new ProductNotFoundException(String.format("Image with Code %d does not belong to any product.", imageCode)); });
 
         if (product.isDeleted()) {
             log.warn("getProductImageByImageCode: Product with image code {} is marked as deleted", imageCode);
@@ -147,6 +144,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         LocalDateTime creationDateEnd = parseDate(criteria.getCreationDateEnd());
         LocalDateTime lastUpdateDateStart = parseDate(criteria.getLastUpdateDateStart());
         LocalDateTime lastUpdateDateEnd = parseDate(criteria.getLastUpdateDateEnd());
+
 
         Specification<Product> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -187,16 +185,20 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         Page<Product> productPage = productRepository.findAll(specification, pageable);
 
         log.info("getProductsByCriteria: Found {} products with given criteria", productPage.getTotalElements());
-        log.trace("getProductsByCriteria method ends. Criteria: {}", criteria);
 
-        return productPage.map(product -> {
+        Page<ProductDto> productDtoPage= productPage.map(product -> {
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
+
             if (product.getImage() != null) {
                 productDto.setImageCode(product.getImage().getImageCode());
             }
             return productDto;
         });
+
+        log.trace("getProductsByCriteria method ends. Criteria: {}", criteria);
+        return productDtoPage;
     }
+
 
 
     private LocalDateTime parseDate(String dateStr) {

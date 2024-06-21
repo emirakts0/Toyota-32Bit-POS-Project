@@ -12,7 +12,10 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Consumer class for consuming stock update messages from a RabbitMQ queue.
+ * Includes retry mechanism for failed operations.
+ */
 @Slf4j
 @Component
 public class ProductConsumer {
@@ -26,25 +29,24 @@ public class ProductConsumer {
 
     @Value("${stock.rabbitmq.queue}")
     private String queueName;
-
     @Value("${retry.limit}")
     private int retryLimit;
 
 
     @RabbitListener(queues = "${stock.rabbitmq.queue}", containerFactory = "rabbitListenerContainerFactory")
-    public void consumeMessage(StockUpdateMessage message) {
+    private void consumeMessage(StockUpdateMessage message) {
         log.trace("consumeMessage method begins. Barcode: {}", message.getBarcode());
 
         try {
-            log.info("consumeMessage: updating stock for barcode: {}", message.getBarcode());
             productManagementService.updateStock(message.getBarcode(), message.getStock());
         } catch (Exception e) {
-            log.warn("consumeMessage: Error updating stock for barcode {}: {}", message.getBarcode(), e.getMessage(), e);
+            log.warn("consumeMessage: Exception, updating stock for barcode {}: {}", message.getBarcode(), e.getMessage(), e);
             processRetry(message);
         }
 
         log.trace("consumeMessage method ends. Barcode: {}", message.getBarcode());
     }
+
 
     private void processRetry(StockUpdateMessage message) {
         log.trace("processRetry method begins. retryCount: {}", message.getRetryCount());
@@ -60,6 +62,7 @@ public class ProductConsumer {
 
         log.trace("processRetry method ends. retryCount: {}", message.getRetryCount());
     }
+
 
     @Async
     public void requeueMessageWithDelay(StockUpdateMessage message) {
@@ -79,6 +82,7 @@ public class ProductConsumer {
             log.trace("requeueMessageWithDelay task ends. Barcode: {}, Stock: {}", message.getBarcode(), message.getStock());
         });
     }
+
 
     private void handleFailedMessage(StockUpdateMessage message) {
         log.error("handleFailedMessage: Handling failed message after max retries for barcode {}: {}", message.getBarcode(), message);

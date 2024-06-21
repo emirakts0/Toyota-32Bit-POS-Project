@@ -1,6 +1,9 @@
 package com.productservice.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -36,6 +39,7 @@ public class RabbitMqConfig {
     public Binding binding(Queue firstStepQueue, DirectExchange exchange){
         return BindingBuilder.bind(firstStepQueue).to(exchange).with(routingKey);
     }
+
 
     @Bean
     public MessageConverter jsonMessageConverter(){

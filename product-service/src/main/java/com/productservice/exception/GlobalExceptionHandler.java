@@ -14,26 +14,38 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = { ProductNotFoundException.class,
-                                ImageProcessingException.class,
-                                ProductAlreadyDeletedException.class,
+                                ImageNotFoundException.class })
+    public ResponseEntity<Object> handleNotFoundExceptions(RuntimeException e) {
+        return buildResponseEntity(e, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(value = { ImageProcessingException.class,
                                 ProductIsNotDeletedException.class,
-                                InvalidInputException.class,
-                                ImageNotFoundException.class,
-                                ProductAlreadyExistsException.class})
-    public ResponseEntity<Object> responseEntity(RuntimeException e){
+                                InvalidInputException.class })
+    public ResponseEntity<Object> handleBadRequestExceptions(RuntimeException e) {
+        return buildResponseEntity(e, HttpStatus.BAD_REQUEST);
+    }
 
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
+    @ExceptionHandler(value = { ProductAlreadyExistsException.class,
+                                ProductAlreadyDeletedException.class,})
+    public ResponseEntity<Object> handleConflictExceptions(RuntimeException e) {
+        return buildResponseEntity(e, HttpStatus.CONFLICT);
+    }
+
+
+    private ResponseEntity<Object> buildResponseEntity(RuntimeException e, HttpStatus status) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(
                 e.getMessage(),
-                badRequest,
+                status,
                 LocalDateTime.now()
         );
 
         log.error("Exception: {} - Message: {}", e.getClass().getSimpleName(), e.getMessage(), e);
 
         return ResponseEntity
-                .status(badRequest)
+                .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(exceptionResponse);
     }

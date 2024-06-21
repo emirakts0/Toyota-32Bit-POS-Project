@@ -35,10 +35,10 @@ public class ProductSearchController {
 
     @GetMapping("/by-prefix")
     public ResponseEntity<Page<ProductDto>> getProductsByPrefix(
-            @RequestParam String prefix,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "1") int pageNumber,
-            @RequestParam(defaultValue = "true") boolean hideDeleted) {
+                                                    @RequestParam String prefix,
+                                                    @RequestParam(defaultValue = "10") int pageSize,
+                                                    @RequestParam(defaultValue = "1") int pageNumber,
+                                                    @RequestParam(defaultValue = "true") boolean hideDeleted) {
         log.trace("getProductsByPrefix endpoint called with prefix: {}, pageSize: {}, pageNumber: {}, hideDeleted: {}",
                 prefix, pageSize, pageNumber, hideDeleted);
 

@@ -44,7 +44,4 @@ public class Image {
             imageCode = new Random().nextLong() & Long.MAX_VALUE;
         }
     }
-
-
-
 }

@@ -2,12 +2,12 @@ package com.productservice.service.impl;
 
 import com.productservice.dto.ProductCreateRequestDto;
 import com.productservice.dto.UpdateProductRequestDto;
+import com.productservice.exception.*;
 import com.productservice.model.Image;
 import com.productservice.model.Product;
 import com.productservice.repository.ImageRepository;
 import com.productservice.repository.ProductRepository;
 import com.productservice.service.ProductManagementService;
-import com.productservice.exception.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,6 @@ public class ProductManagementServiceImpl implements ProductManagementService {
 
     private final ProductRepository productRepository;
     private final ImageRepository imageRepository;
-    //@PersistenceContext
     private final EntityManager entityManager;
     private final ModelMapper modelMapper;
 
@@ -104,8 +103,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         Product product = productRepository.findByBarcodeAndDeletedFalse(barcode)
                 .orElseThrow(() -> {
                     log.warn("updateProduct: Product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)); });
 
         if(updateProductRequestDto != null){
 
@@ -135,8 +133,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         Product product = productRepository.findByBarcodeAndDeletedFalse(barcode)
                 .orElseThrow(() -> {
                     log.warn("updateStock: Product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)); });
 
         int newStock = product.getStock() + stockChange;
         if (newStock < 0) {
@@ -164,8 +161,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> {
                     log.warn("deleteProductByBarcode: Product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)); });
 
         if (product.isDeleted()) {
             log.warn("deleteProductByBarcode: Product with barcode {} already deleted", barcode);
@@ -194,8 +190,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> {
                     log.warn("reAddDeletedProductByBarcode: Deleted product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Deleted product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Deleted product with barcode %s not found", barcode)); });
 
         if (!product.isDeleted()) {
             log.warn("reAddDeletedProductByBarcode: Product with barcode {} is not deleted", barcode);
@@ -224,8 +219,7 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         Product product = productRepository.findByBarcode(barcode)
                 .orElseThrow(() -> {
                     log.warn("deleteImageByBarcode: Product with barcode {} not found", barcode);
-                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode));
-                });
+                    return new ProductNotFoundException(String.format("Product with barcode %s not found", barcode)); });
 
         if (product.isDeleted()) {
             log.warn("deleteImageByBarcode: Product with barcode {} already deleted, cannot delete the image", barcode);
@@ -251,7 +245,6 @@ public class ProductManagementServiceImpl implements ProductManagementService {
         log.trace("deleteImageByBarcode method ends. Barcode: {}", barcode);
         return barcode;
     }
-
 
 
 

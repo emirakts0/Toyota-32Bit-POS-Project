@@ -46,7 +46,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByBarcodeAndDeletedFalse(String barcode);
 
 
-
     Page<Product> findAll(Pageable pageable);
     Page<Product> findByNameStartingWithIgnoreCase(String prefix, Pageable pageablei);
 
