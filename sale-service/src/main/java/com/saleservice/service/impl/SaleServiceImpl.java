@@ -1,7 +1,10 @@
 package com.saleservice.service.impl;
 
 import com.saleservice.config.RabbitMqMessagePublisher;
-import com.saleservice.dto.*;
+import com.saleservice.dto.BagDto;
+import com.saleservice.dto.ReceiptMessage;
+import com.saleservice.dto.SaleDto;
+import com.saleservice.dto.StockUpdateMessage;
 import com.saleservice.exception.*;
 import com.saleservice.model.PaymentMethod;
 import com.saleservice.model.Sale;
@@ -123,6 +126,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
 
+
     private BigDecimal calculateChange(BigDecimal amountReceived, BigDecimal priceToPay, PaymentMethod paymentMethod) {
         log.trace("calculateChange method begins. AmountReceived: {}, PriceToPay: {}, PaymentMethod: {}", amountReceived, priceToPay, paymentMethod);
 
@@ -205,6 +209,3 @@ public class SaleServiceImpl implements SaleService {
         return parsedName;
     }
 }
-
-
-

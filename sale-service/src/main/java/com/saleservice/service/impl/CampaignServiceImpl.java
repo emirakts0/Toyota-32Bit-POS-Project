@@ -70,6 +70,7 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignDto;
     }
 
+
     @Transactional
     @Override
     public CampaignResponseDto updateCampaignDates( Long id,
@@ -128,6 +129,7 @@ public class CampaignServiceImpl implements CampaignService {
         log.trace("deleteCampaignById method ends. ID: {}", id);
     }
 
+
     @Override
     public CampaignResponseDto getCampaignById(Long id) {
         log.trace("getCampaignById method begins. ID: {}", id);
@@ -169,7 +171,6 @@ public class CampaignServiceImpl implements CampaignService {
 
 
 
-
     private LocalDateTime parseDate(String dateStr) {
         log.trace("parseDate method begins. DateStr: {}", dateStr);
 
@@ -188,6 +189,7 @@ public class CampaignServiceImpl implements CampaignService {
             throw new InvalidInputException("Invalid date format: Please use " + "yyyy-MM-dd" + " format.");
         }
     }
+
 
     private LocalDateTime parseStartDate(String startDateStr) {
         log.trace("parseStartDate method begins. StartDateStr: {}", startDateStr);

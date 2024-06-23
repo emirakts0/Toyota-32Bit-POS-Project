@@ -44,7 +44,6 @@ public class BagServiceImpl implements BagService {
     private final ModelMapper modelMapper;
 
 
-
     @Override
     @Transactional
     public BagDto addProductToBag(Long bagId, String barcode, int quantity) {
@@ -303,7 +302,6 @@ public class BagServiceImpl implements BagService {
 
 
 
-
     private BigDecimal calculateTotalPrice(Bag bag) {
         log.trace("calculateTotalPrice method begins. BagId: {}", bag.getId());
 
@@ -314,6 +312,7 @@ public class BagServiceImpl implements BagService {
         log.trace("calculateTotalPrice method ends. BagId: {}, TotalPrice: {}", bag.getId(), totalPrice);
         return totalPrice;
     }
+
 
     private void applyDiscount(Bag bag,
                                BigDecimal totalPrice,
@@ -341,6 +340,7 @@ public class BagServiceImpl implements BagService {
         log.trace("applyDiscount method ends. BagId: {}, DiscountedPrice: {}", bag.getId(), discountedPrice);
     }
 
+
     private void updatePrice(Bag bag) {
         log.trace("updatePrice method begins. BagId: {}", bag.getId());
 
@@ -352,6 +352,7 @@ public class BagServiceImpl implements BagService {
 
         log.trace("updatePrice method ends. BagId: {}, TotalPrice: {}", bag.getId(), totalPrice);
     }
+
 
     private void resetCampaignDetails(Bag bag) {
         log.trace("resetCampaignDetails method begins. BagId: {}", bag.getId());
@@ -365,5 +366,3 @@ public class BagServiceImpl implements BagService {
         log.trace("resetCampaignDetails method ends. BagId: {}", bag.getId());
     }
 }
-
-
