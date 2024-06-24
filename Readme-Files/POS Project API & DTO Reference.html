@@ -1,0 +1,1304 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>POS Project API &amp; DTO Reference</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="16ce50d8-cc2e-473c-9561-0739f0d85bbc" class="page sans"><header><h1 class="page-title">POS Project API &amp; DTO Reference</h1><p class="page-description"></p></header><div class="page-body"><blockquote id="a60c2b56-8807-4718-b6e0-395e7b5d9151" class=""><strong>Note:  </strong>All endpoints require a Bearer token for security.</blockquote><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Security</summary><div class="indented"><ul id="43c8dead-8608-4d99-ace0-584fc8a9c766" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Login</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Authenticates a user and generates a JWT token.</mark></em></summary><p id="b5849e82-e765-4948-99d3-3e2e72e52d8d" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1887faba-cd6d-4681-9507-0a5820645154" class="code"><code class="language-JSON">POST  http://localhost:8889/login</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="841ce97c-cf26-44b2-aafe-c2abd8b4dd0f" class="code"><code class="language-JSON">{
+    &quot;username&quot;: &quot;admin&quot;,
+    &quot;password&quot;: &quot;admin&quot;
+}</code></pre><p id="d85f0f64-cedf-467c-a899-0b5f1faba76e" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="710dda11-a06f-485d-ac6b-c13c4262b3b4" class="code"><code class="language-JSON">{
+    &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQT1MgU2VjdXJpdHkiLCJpYXQiOjE3MTkyMjM1MzYsImV4cCI6MTcxOTIzNzkzNiwic3ViIjoiYWRtaW4ifQ.oEoR8U-NWhrdegvd3U2pk72E4xRbdqyNl1x1LHw4uMU&quot;,
+    &quot;username&quot;: &quot;admin&quot;
+}</code></pre></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">User Service</summary><div class="indented"><blockquote id="0228608f-7ad4-4e21-be62-6980ae5446df" class=""><strong>Note:</strong>  The user must have the <code>ADMIN</code> role.</blockquote><hr id="3bf78bd4-8a8d-4954-981f-5398ae4f63ce"/><ul id="c61c67b8-7ef8-4195-aac6-cb740ddf20a5" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Register User</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">User registers to the system, multiple registrations can be made at the same time.</mark></em></summary><p id="2518507d-0cb3-4c9c-b0cb-40b06c7fbbc8" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b5b45bb-d62f-440f-9054-a6d356c03f0b" class="code"><code class="language-JSON">POST  http://localhost:8889/user/management</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c70b12f4-3aad-4e2a-aa4c-f8219fe818a9" class="code"><code class="language-JSON">[
+{
+  &quot;username&quot;: &quot;user&quot;,
+  &quot;email&quot;: &quot;user@email.com&quot;,
+  &quot;name&quot;: &quot;userName&quot;,
+  &quot;surname&quot;: &quot;userSurname&quot;,
+    &quot;roles&quot;: [
+        {&quot;roleName&quot;: &quot;CASHIER&quot;},
+        {&quot;roleName&quot;: &quot;MANAGER&quot;},
+        {&quot;roleName&quot;: &quot;ADMIN&quot;}
+    ],
+  &quot;password&quot;: &quot;12345678&quot;
+}
+
+{...} More than one user can be registered at the same time.
+]</code></pre><ul id="95b98e53-be28-4ce6-ba65-891597000c92" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>username:</strong></em><em> Must be between 1 and 50 characters, no spaces.</em></li></ul><ul id="298034c9-bf9e-44e8-ade3-b6e8ecdc25b1" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>email:</strong></em><em> Must be a valid email format.</em></li></ul><ul id="be20f8d2-c545-4cf0-9e55-0d856f304b90" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>roles:</strong></em><em> At least one role is required.</em></li></ul><ul id="e6312d01-0579-42d8-b367-1d6625a16a35" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>password:</strong></em><em> Must be between 8 and 100 characters.</em></li></ul><ul id="251d781d-725c-42f8-b561-a12fbe01adde" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>name:</strong></em><em> Must be between 1 and 50 characters, cannot start or end with a space.</em></li></ul><ul id="f78caf9b-a7b8-4a7c-aaf9-6a7944f38f93" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>surname:</strong></em><em> Must be between 1 and 50 characters, cannot start or end with a space.</em></li></ul><p id="1aa28f67-b016-4608-8a23-650c84953282" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23695492-0ba1-4b05-b7e0-81d7e1f62dc5" class="code"><code class="language-JSON">Employees saved successfully</code></pre><p id="ddb9fc0c-d231-4a14-9162-d91d268e4e6f" class="">
+</p></details></li></ul><ul id="aa5bce35-e6e1-43b9-8427-a512a2047696" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Update User</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Updates the details of an existing user with the provided information; unspecified fields remain unchanged.</mark></em></summary><p id="0c5069f6-8d0e-4e99-8c5b-f1aebd3a10a3" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ea0d176a-c833-4eff-adc8-f784669ddf85" class="code"><code class="language-JSON">PUT  http://localhost:8889/user/management/{id}</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fa4e518c-4f9b-4b71-95e5-e39ce8672619" class="code"><code class="language-JSON">{
+  &quot;username&quot;: &quot;user&quot;,
+  &quot;email&quot;: &quot;user@email&quot;,
+  &quot;name&quot;: &quot;userName&quot;,
+  //&quot;surname&quot;: &quot;userSurname&quot;,
+  &quot;roles&quot;: [
+    {&quot;roleName&quot;: &quot;ADMIN&quot;},
+    {&quot;roleName&quot;: &quot;MANAGER&quot;}
+  ],
+  &quot;password&quot;: &quot;12345678&quot;
+}</code></pre><ul id="d7299439-4292-4ac0-b9e7-623ddbb59169" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>username:</strong></em><em> Must be between 1 and 50 characters, no spaces.</em></li></ul><ul id="e4c00d4d-e402-4e28-82be-3b48b47ddf30" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>email:</strong></em><em> Must be a valid email format.</em></li></ul><ul id="247e9fe2-c128-4687-bc34-a824a9051268" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>roles:</strong></em><em> At least one role is required.</em></li></ul><ul id="0e33f733-eb81-4c5c-baaa-4890084c5497" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>password:</strong></em><em> Must be between 8 and 100 characters, cannot be blank or contain only whitespace.</em></li></ul><ul id="a4f9e36f-8a5d-4a59-bc01-bebdf1e599ae" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>name:</strong></em><em> Must be between 1 and 50 characters, cannot start or end with a space.</em></li></ul><ul id="dfea6b16-e957-466c-b5fa-816abb928717" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><em><strong>surname:</strong></em><em> Must be between 1 and 50 characters, cannot start or end with a space.</em></li></ul><p id="95a3dd7b-a242-436a-9931-ac2c3864406a" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="685cee2a-9697-49c6-9eb5-84e6e70321ab" class="code"><code class="language-JSON">Id with {id} updated</code></pre><p id="084f8283-2c49-4383-bf88-f8305d353b7d" class="">
+</p></details></li></ul><ul id="4cb67351-e595-4979-a795-a22de66e46ad" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete User</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Soft deletes a user with the specified ID, marking the user as deleted.</mark></em></summary><p id="6389acfc-9e21-46b0-832a-02f883afc869" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a8cfeab7-6184-470b-a24c-be4c966784f9" class="code"><code class="language-JSON">DELETE  http://localhost:8889/user/management/{id}</code></pre><p id="295928ec-fedc-4861-adb3-2248612af6f2" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ebe8200b-057e-4637-96bd-1dd2a1c19d4d" class="code"><code class="language-JSON">Id with {id} deleted</code></pre><p id="4d154f5c-09f5-4aa7-b6cb-31688279f6b2" class="">
+</p></details></li></ul><ul id="4b37a348-c020-4021-a28a-b04451f91b6e" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Reactivate User</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Reactivates a user that was previously soft deleted.</mark></em></summary><p id="0e490123-13a6-4e1a-a750-ae86b941693d" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="85b908cf-ff1b-43e1-8519-afb40eca5eac" class="code"><code class="language-JSON">PUT  http://localhost:8889/user/management/reactivate-by-id/{id}</code></pre><p id="a20b5d92-ae86-4509-ac40-80fe441e8137" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c22f7ca-72cf-4b35-a7f5-48a91696a9c2" class="code"><code class="language-JSON">Id with {id} updated</code></pre><p id="e2a52cb1-2a90-4b5e-8297-73e9db3386bd" class="">
+</p></details></li></ul><ul id="77344f7a-b48c-48cf-bea4-767d907771a7" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get By Username</span></strong></code></mark><mark class="highlight-default">   Retrieves user details based on the specified username.</mark></summary><p id="fe9c48b2-578d-4705-b90a-62b6ce1f3895" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f44b0234-139f-45ac-9b30-3bd2a8c2eb9e" class="code"><code class="language-JSON">GET  http://localhost:8889/user/management/{id}</code></pre><p id="3e216f3e-1950-403e-a474-08ef9e1f5f51" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1a8c8187-2cd8-4c4d-9ec8-079a51382450" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 53,
+    &quot;username&quot;: &quot;user2&quot;,
+    &quot;name&quot;: &quot;userName&quot;,
+    &quot;surname&quot;: &quot;userSurname2&quot;,
+    &quot;email&quot;: &quot;user2@email&quot;,
+    &quot;roles&quot;: [
+        {
+            &quot;roleName&quot;: &quot;MANAGER&quot;
+        },
+        {
+            &quot;roleName&quot;: &quot;ADMIN&quot;
+        }
+    ],
+    &quot;deleted&quot;: false
+}</code></pre><p id="9d4c4478-bcf8-4047-b85d-f927fee74e9d" class="">
+</p></details></li></ul><ul id="91d9e85d-dfd0-4be9-b5fc-ea932ded4b79" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get By ID</span></strong></code></mark><mark class="highlight-default">   Retrieves user details based on the ID.</mark></summary><p id="4922342d-eca1-49d1-9760-c6b47a7add8f" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a27e4eb7-3776-4720-9f6b-87ebc83c2a08" class="code"><code class="language-JSON">GET  http://localhost:8889/user/search/{id}</code></pre><p id="e98432f9-4e61-4dc7-9d52-8889202d5166" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c10124ca-46a4-4b10-8e89-6d2d4c316a7f" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 53,
+    &quot;username&quot;: &quot;user2&quot;,
+    &quot;name&quot;: &quot;userName&quot;,
+    &quot;surname&quot;: &quot;userSurname2&quot;,
+    &quot;email&quot;: &quot;user2@email&quot;,
+    &quot;roles&quot;: [
+        {
+            &quot;roleName&quot;: &quot;MANAGER&quot;
+        },
+        {
+            &quot;roleName&quot;: &quot;ADMIN&quot;
+        }
+    ],
+    &quot;deleted&quot;: false
+}</code></pre><p id="afa9cb66-d23b-4ec9-ad68-0c7fe71558c5" class="">
+</p></details></li></ul><ul id="dfa8e2cd-d937-4fc1-9e00-8c750a9422f8" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get All</span></strong></code></mark><mark class="highlight-default">   Retrieves a page of users based on the provided parameters.</mark></summary><p id="434e80b4-a4c8-4413-927f-a402f6fdc370" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="84ad6574-7abd-4adb-86f5-6a29d7a1c91a" class="code"><code class="language-JSON">GET  http://localhost:8889/user/search</code></pre><p id="13f2226d-c808-4025-8613-5a47cb5da720" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e246f979-0a20-4e4d-a580-8e5fc991e4cf" class="code"><code class="language-JSON">pageSize (integer, optional): The number of users to return per page.
+pageNumber (integer, optional): The page number to retrieve.
+hideDeleted (boolean, optional): Boolean flag to hide soft-deleted users.</code></pre><p id="e0d8b097-9f65-4896-b696-3c55ccd58f09" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9e166bc5-ed10-4859-83d2-5b1f072a1c97" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;id&quot;: 52,
+            &quot;username&quot;: &quot;admin&quot;,
+            &quot;name&quot;: &quot;Admin&quot;,
+            &quot;surname&quot;: &quot;Default&quot;,
+            &quot;email&quot;: &quot;admin@admin.com&quot;,
+            &quot;roles&quot;: [
+                {
+                    &quot;roleName&quot;: &quot;ADMIN&quot;
+                }
+            ],
+            &quot;deleted&quot;: false
+        },
+        {
+            ...
+        }
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: {
+            &quot;empty&quot;: false,
+            &quot;sorted&quot;: true,
+            &quot;unsorted&quot;: false
+        },
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;totalPages&quot;: 1,
+    &quot;totalElements&quot;: 2,
+    &quot;last&quot;: true,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: {
+        &quot;empty&quot;: false,
+        &quot;sorted&quot;: true,
+        &quot;unsorted&quot;: false
+    },
+    &quot;numberOfElements&quot;: 2,
+    &quot;first&quot;: true,
+    &quot;empty&quot;: false
+}</code></pre><p id="def58260-5493-4249-b270-0ed95490c199" class="">
+</p></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Product Service</summary><div class="indented"><blockquote id="9a860aaf-8a6f-41d0-8b4e-20b1a9e54b67" class=""><strong>Note:</strong>  Can access any role that is logged in.</blockquote><hr id="f2b2f26e-87e1-422f-9b56-2068b66479f1"/><ul id="856d74a4-d469-4501-adc5-c7cf59149c78" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Save Product</span></strong></code></mark><mark class="highlight-default">   Adds a new product to the system.</mark></summary><p id="a1d2964d-8da0-4efc-a730-950a18803e92" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1827d1fe-0124-4608-8d8d-3c2a31d4ed7a" class="code"><code class="language-JSON">POST  http://localhost:8889/product/management</code></pre><p id="bad44297-779e-4491-936a-2bce1380a9a1" class=""><em><mark class="highlight-gray"><code>Body (form-data)</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="511febd1-e34e-494c-9cdd-dc8e04566323" class="code"><code class="language-JSON">file (optional): image file.
+
+product (application-json): 
+{
+  &quot;name&quot;: &quot;apple&quot;,
+  &quot;barcode&quot;: &quot;12345&quot;,
+  &quot;price&quot;: 10.99,
+  &quot;stock&quot;: 10
+}</code></pre><ul id="ac1fd773-4ec0-4caa-93f9-df513d4b56e5" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>name:</strong> Must be between 1 and 50 characters, cannot be empty or null.</li></ul><ul id="d836b3d8-0fa2-4064-a445-c4179225e29f" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>barcode:</strong> Must be between 1 and 35 characters, cannot contain whitespace, and cannot be empty or null.</li></ul><ul id="c95fb366-8ec4-4da3-8e63-8b760ebffcfb" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>price:</strong> Cannot be null, must be positive or zero, and must have up to 2 decimal places.</li></ul><ul id="7922a5b8-2ab8-4010-8a30-30ec1950cdbe" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>stock:</strong> Cannot be null and must be positive or zero.</li></ul><p id="a51e03f4-1a7c-4098-808f-81ef4c28ea7e" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e96bf464-f7db-4e70-acb5-da0d6b0007b5" class="code"><code class="language-JSON">Product saved successfully</code></pre><p id="b915c9e4-7d14-416d-a3b7-3ef9d5c008d3" class="">
+</p></details></li></ul><ul id="a24819fe-d4a0-4e0e-9677-b19cefd4f4ab" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Update Product</span></strong></code></mark><mark class="highlight-default">   Updates an existing product with the specified barcode.</mark></summary><p id="17b57a6a-c2c6-44c9-b46c-763b58b133da" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="76c757a8-ad53-41b1-8ef1-48c5649fdd2a" class="code"><code class="language-JSON">PUT  http://localhost:8889/product/management/{barcode}</code></pre><p id="f5236e75-eeff-45d6-ac79-7184c23b7d91" class=""><em><mark class="highlight-gray"><code>Body (form-data)</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b7f25479-b86f-46cd-a2a7-7594db2afb80" class="code"><code class="language-JSON">file (optional): image file.
+
+product (application-json): 
+{
+  &quot;name&quot;: &quot;apple&quot;,
+  &quot;barcode&quot;: &quot;12345&quot;,
+  &quot;price&quot;: 10.99,
+  &quot;stock&quot;: 10
+}</code></pre><ul id="9fd27dc9-8b30-4dc4-8ba5-254609407240" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>name:</strong> Must be between 1 and 50 characters, cannot be empty or null.</li></ul><ul id="6b5bcade-e9a9-4227-ba3a-f8b65f33c41a" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>barcode:</strong> Must be between 1 and 35 characters, cannot contain whitespace, and cannot be empty or null.</li></ul><ul id="b1735ef2-bda2-48d1-9e85-3102a449d0cd" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>price:</strong> Cannot be null, must be positive or zero, and must have up to 2 decimal places.</li></ul><ul id="45a0f1ba-3b90-443a-a944-9b104b7fa04d" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>stock:</strong> Cannot be null and must be positive or zero.</li></ul><p id="9194f790-057b-4204-8bc0-f22d4008f7b9" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ac2e7837-f691-4df5-a4bb-712fe7bbca15" class="code"><code class="language-JSON">Product updated successfully</code></pre><p id="882b1ef4-2321-49db-974b-a875f780b365" class="">
+</p></details></li></ul><ul id="8a981a89-285d-4c05-9f5d-42e4981facee" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Update Product Stock</span></strong></code></mark><mark class="highlight-default">   Updates the stock quantity of a product by barcode.</mark></summary><p id="e5a7930f-14b9-4226-8b88-3acada41df82" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="25e361fb-1c59-4e35-987c-005aaae9c3eb" class="code"><code class="language-JSON">PUT  http://localhost:8889/product/management/{barcode}/stock</code></pre><p id="9ec056d9-83b4-42a9-92fc-af2cf1230ae8" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c0a1dee6-c947-42ef-a334-d8d2a44c286a" class="code"><code class="language-JSON">stockChange (integer, required): positive or negative, the quantity to be updated in stock</code></pre><p id="0bc1df92-df63-4c1d-8f56-b3b9786273db" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3468ac3e-1f83-4965-b67f-4c755d37e8ae" class="code"><code class="language-JSON">Stock updated for product with barcode {barcode}. New stock level: {integer}</code></pre><p id="68d74b31-c8d0-43be-8e19-3ddb8187f7b1" class="">
+</p></details></li></ul><ul id="141abdb3-d868-4937-bd35-510807d52963" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete Product</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Soft deletes a product with the specified Barcode, marking the product as deleted.</mark></em></summary><p id="cbb399f7-6c76-4557-bfc2-dacb00b00741" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7d8ff728-ae7d-43fd-89cc-329894580727" class="code"><code class="language-JSON">DELETE  http://localhost:8889/product/management/{barcode}</code></pre><p id="21d324d6-a9e7-4129-8f21-3039f04a9b7e" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dbad69ac-cb26-49a7-ac69-2200406d19d7" class="code"><code class="language-JSON">The product with the barcode {barcode} has been deleted.</code></pre><p id="c9f9caea-7ed2-4199-bf3b-bd20c17a9df1" class="">
+</p></details></li></ul><ul id="ec437b98-aa43-44cc-8d75-d93c9099d455" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Re-Add Product</span></strong></code></mark><mark class="highlight-default">   Re-add</mark><em><mark class="highlight-default"> the product that was previously soft deleted.</mark></em></summary><p id="8f6f348e-d1b1-43f5-bb75-28adb963cffd" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="62b62580-3d5e-468c-b3d9-9eb67a47ab53" class="code"><code class="language-JSON">PUT  http://localhost:8889/product/management/re-add/{barcode}</code></pre><p id="75175ad6-1f35-4915-b119-19db980cb619" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1428040b-518f-4f4b-9d79-e5cad710e50a" class="code"><code class="language-JSON">The product with the barcode {barcode} has been re-added.</code></pre><p id="23115cf5-1b8a-4b2f-92be-15e3b8e75ae4" class="">
+</p></details></li></ul><ul id="7182cd11-d268-46f4-9ba9-c84dd3bd7d87" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get By Barcode</span></strong></code></mark><mark class="highlight-default">   Retrieves product details based on the specified barcode.</mark></summary><p id="d6dc1212-b86e-438e-bc3e-ba24a4a3eca7" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4da71e49-3ef4-4329-a025-d19a852e6675" class="code"><code class="language-JSON">GET  http://localhost:8889/product/search/{barcode}</code></pre><p id="251d0de1-3e39-443d-8c27-bedd552dc116" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6b30768c-8695-4d36-832b-4dce818c80ac" class="code"><code class="language-JSON">{
+    &quot;name&quot;: &quot;apple&quot;,
+    &quot;barcode&quot;: &quot;12345&quot;,
+    &quot;price&quot;: 99.00,
+    &quot;stock&quot;: 5,
+    &quot;creationDate&quot;: &quot;2024-06-24T11:21:15.804319&quot;,
+    &quot;lastUpdateDate&quot;: &quot;2024-06-24T11:35:46.313588&quot;,
+    &quot;imageCode&quot;: 4593623573232274660,
+    &quot;hasImage&quot;: true,
+    &quot;deleted&quot;: false
+}</code></pre><p id="02dba8ea-4fe2-4aed-805f-168d69af0915" class="">
+</p></details></li></ul><ul id="ecfe6766-9467-4233-b37a-bf21f403e8df" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get By Filter</span></strong></code></mark><mark class="highlight-default">   Retrieves a page of products based on the provided filter criteria.</mark></summary><p id="624c615a-2883-4fd5-94ee-13a2b6282898" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8a5198c3-ec33-4206-bf21-64584343943e" class="code"><code class="language-JSON">GET  http://localhost:8889/product/search/filter</code></pre><p id="264eb915-fb48-40df-b36b-5de14d1fb8b0" class=""><em><mark class="highlight-gray"><code>Body</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f5eb5330-6011-4889-9847-31b8cef07286" class="code"><code class="language-JSON">{
+  //&quot;page&quot;: 1,
+  //&quot;size&quot;: 10,
+  &quot;sortBy&quot;: &quot;price&quot;,
+  //&quot;sortDir&quot;: &quot;desc&quot;,
+  &quot;minPrice&quot;: 0.01,
+  &quot;maxPrice&quot;: 999999.99,
+  //&quot;minStock&quot;: 0,
+  //&quot;maxStock&quot;: 1000000,
+  //&quot;creationDateStart&quot;: &quot;2023-01-01T00:00:00&quot;,
+  //&quot;creationDateEnd&quot;: &quot;2024-12-01T23:59:59&quot;,
+  //&quot;lastUpdateDateStart&quot;: &quot;2023-01-01T00:00:00&quot;,
+  //&quot;lastUpdateDateEnd&quot;: &quot;2024-12-01T23:59:59&quot;,
+  //&quot;hasImage&quot;: true,
+  &quot;deleted&quot;: false
+}</code></pre><ul id="67b8aae0-0fed-45ba-a90b-e86a6a20d0e3" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>page:</strong> Must be at least 1.</li></ul><ul id="f80bb01a-a12a-4bbb-bb65-f24b1e091afd" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>size:</strong> Must be at least 1.</li></ul><ul id="97af765a-2e12-4c14-9d9a-8b3c2fa2ed11" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>sortBy:</strong> Valid values are &#x27;name&#x27;, &#x27;price&#x27;, &#x27;stock&#x27;, &#x27;creationDate&#x27;, &#x27;lastUpdateDate&#x27;.</li></ul><ul id="ac9afe60-7a1a-4123-b608-8432b251cf8a" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>sortDir:</strong> Valid values are &#x27;asc&#x27; or &#x27;desc&#x27;.</li></ul><ul id="181daea6-187c-4c46-a275-835f206c772e" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>minPrice:</strong> Must be greater than zero.</li></ul><ul id="000e52ae-78eb-44e1-ad64-e1ecc98a44f8" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>maxPrice:</strong> Must be less than 1,000,000.</li></ul><ul id="e563b888-22fc-4789-9658-f6110aa57494" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>minStock:</strong> Must be at least 0.</li></ul><ul id="49cdb608-ea9a-4acf-8bbf-8b0b670c6baa" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>maxStock:</strong> Must be less than or equal to 1,000,000.</li></ul><ul id="36398b7b-df6a-486e-a206-290c2cb1db65" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>creationDateStart:</strong> Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="d4d87c85-f047-4160-9aa0-8466ec8f184d" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>creationDateEnd:</strong> Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="ad5f7fc6-d927-43d2-bf63-ea6c8ba4a4e1" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>lastUpdateDateStart:</strong> Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="bcc4415d-b32d-4ee0-9589-3fb6b67e9373" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>lastUpdateDateEnd:</strong> Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="6a183faa-1ad6-49bf-971d-a173e44b07af" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>deleted:</strong> Boolean flag to include deleted products.</li></ul><ul id="4d239186-80f0-4cb0-b866-d3e76cb7d081" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>hasImage:</strong> Boolean flag to filter products with images.</li></ul><p id="dbc809c8-2c9a-4d15-a487-f707608aa052" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="28d0d481-ab21-4271-b15a-1fe67da426c3" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;name&quot;: &quot;Lightweight Silk Gloves&quot;,
+            &quot;barcode&quot;: &quot;1987573323&quot;,
+            &quot;price&quot;: 0.41,
+            &quot;stock&quot;: 15,
+            &quot;creationDate&quot;: &quot;2024-06-24T10:04:09.412295&quot;,
+            &quot;lastUpdateDate&quot;: null,
+            &quot;imageCode&quot;: null,
+            &quot;hasImage&quot;: false,
+            &quot;deleted&quot;: false
+        },
+        { ... }
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: [
+            {
+                &quot;direction&quot;: &quot;ASC&quot;,
+                &quot;property&quot;: &quot;price&quot;,
+                &quot;ignoreCase&quot;: false,
+                &quot;nullHandling&quot;: &quot;NATIVE&quot;,
+                &quot;ascending&quot;: true,
+                &quot;descending&quot;: false
+            }
+        ],
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;totalElements&quot;: 101,
+    &quot;totalPages&quot;: 11,
+    &quot;last&quot;: false,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: [
+        {
+            &quot;direction&quot;: &quot;ASC&quot;,
+            &quot;property&quot;: &quot;price&quot;,
+            &quot;ignoreCase&quot;: false,
+            &quot;nullHandling&quot;: &quot;NATIVE&quot;,
+            &quot;ascending&quot;: true,
+            &quot;descending&quot;: false
+        }
+    ],
+    &quot;numberOfElements&quot;: 10,
+    &quot;first&quot;: true,
+    &quot;empty&quot;: false
+}</code></pre><p id="45a97502-b423-4dd7-ba88-74f44659ee5a" class="">
+</p></details></li></ul><ul id="529463a1-ebf5-4b5c-9fbc-04c23691665a" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get By Prefix</span></strong></code></mark><mark class="highlight-default">   Retrieves a page of products whose names start with the specified prefix.</mark></summary><p id="53b9bc3d-da24-41fb-bd9f-54854e6788fe" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f1bfdab6-db2c-43cc-9d65-57c624d62b3b" class="code"><code class="language-JSON">GET  http://localhost:8889/product/search/by-prefix</code></pre><p id="edf2b073-3ec2-4d20-825a-f9c88b719fe8" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b849c5b1-0c81-40f7-9baa-e4a2be34c38c" class="code"><code class="language-JSON">prefix (string, required): The prefix to filter product names by.
+pageSize (integer, optional): The number of users to return per page.
+pageNumber (integer, optional): The page number to retrieve.
+hideDeleted (boolean, optional): Boolean flag to hide soft-deleted users.</code></pre><ul id="15b56ec7-4e94-4a8c-84a6-62ec98a5cfb5" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>page:</strong> Must be at least 1.</li></ul><ul id="d418dc4d-7f32-4a86-80b9-d52c3d639a59" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>size:</strong> Must be at least 1.</li></ul><p id="239fe3eb-1b03-42c9-8286-005e58b156ae" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="03717670-ce1a-4a7b-b12f-d57f38b12f15" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;name&quot;: &quot;Aerodynamic Bronze Bench&quot;,
+            &quot;barcode&quot;: &quot;0766610667&quot;,
+            &quot;price&quot;: 540.68,
+            &quot;stock&quot;: 703,
+            &quot;creationDate&quot;: &quot;2024-06-24T10:04:09.398948&quot;,
+            &quot;lastUpdateDate&quot;: null,
+            &quot;imageCode&quot;: null,
+            &quot;hasImage&quot;: false,
+            &quot;deleted&quot;: false
+        }
+        {...}
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: [
+            {
+                &quot;direction&quot;: &quot;ASC&quot;,
+                &quot;property&quot;: &quot;name&quot;,
+                &quot;ignoreCase&quot;: false,
+                &quot;nullHandling&quot;: &quot;NATIVE&quot;,
+                &quot;ascending&quot;: true,
+                &quot;descending&quot;: false
+            }
+        ],
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;totalElements&quot;: 11,
+    &quot;totalPages&quot;: 2,
+    &quot;last&quot;: false,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: [
+        {
+            &quot;direction&quot;: &quot;ASC&quot;,
+            &quot;property&quot;: &quot;name&quot;,
+            &quot;ignoreCase&quot;: false,
+            &quot;nullHandling&quot;: &quot;NATIVE&quot;,
+            &quot;ascending&quot;: true,
+            &quot;descending&quot;: false
+        }
+    ],
+    &quot;numberOfElements&quot;: 10,
+    &quot;first&quot;: true,
+    &quot;empty&quot;: false
+}</code></pre><p id="e539535c-5163-4f5a-91e2-7013ab83792f" class="">
+</p></details></li></ul><ul id="04f46f4c-d094-43da-a700-68147b9f9e90" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Image By Image Code</span></strong></code></mark><mark class="highlight-default">   Retrieves image based on the imageCode.</mark></summary><p id="0cf8047d-e549-45cb-af6e-a46d611a576a" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eb9ffa18-b2a2-4e33-9e32-0bfb68eec43f" class="code"><code class="language-JSON">GET  http://localhost:8889/product/search/image/{imageCode}</code></pre><p id="798f71d0-6c9a-4642-9a2f-65f782cb3667" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c8dae64a-e754-485c-a540-a12a5cec6540" class="code"><code class="language-JSON">image file</code></pre><p id="f713b3b0-c943-4aea-9c03-9f07f9af7e00" class="">
+</p></details></li></ul><ul id="3898e343-fedf-4c52-b492-f9ee4372caa4" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete Image</span></strong></code></mark><mark class="highlight-default">   </mark><em><mark class="highlight-default">Soft deletes a image of the product with the specified Barcode, marking the image as deleted.</mark></em></summary><p id="93c0a364-32b2-4de9-bde5-f4cdaa38b620" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b72fcfd0-faea-4e2b-975f-1ccdab024d72" class="code"><code class="language-JSON">DELETE  http://localhost:8889/product/management/delete-image/{barcode}</code></pre><p id="d9fb71c2-f797-4189-850c-a0685e77efce" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3cdfd5f0-72b4-473b-9e60-6c80890ce72c" class="code"><code class="language-JSON">The product image with the barcode {barcode} has been deleted.</code></pre><p id="a4bdd360-500e-406e-83f8-923cc30b4fa9" class="">
+</p></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Sale Service</summary><div class="indented"><blockquote id="b3c7b3c1-4ca7-4772-8c36-2ddf0281b723" class=""><strong>Note:</strong>  The user must have the <code>CASHIER</code> role.</blockquote><hr id="eabd1471-e0f2-49d6-9397-37505845ce4c"/><p id="2cc9cb37-05ea-4bfa-800f-1606ef06f42e" class=""><em><strong>Bag:</strong></em></p><ul id="f9e4747a-18fe-4960-8c66-c4ff71857ebc" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Add Product to Bag</span></strong></code></mark><mark class="highlight-default">   Adds a product to a bag.</mark></summary><p id="17cff781-3427-4243-ac04-6fd9a1dea0c3" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="038da8b3-b7d1-41f8-8013-aee7eb2c6d3a" class="code"><code class="language-JSON">POST  http://localhost:8889/sale/bags/products</code></pre><p id="452fc3c3-eaed-44b7-bb4a-e4afb700fbd4" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c9928d04-e215-4c53-8dbd-7565ac8e7e40" class="code"><code class="language-JSON">bagId (long, optional): If a bag id is not given or an invalid bag id is given, a new bag will be created.
+barcode (string, required): of the product to be added
+quantity (integer, required): number of products to be added</code></pre><p id="863b993d-dc61-4a63-a631-8ff0f716c04e" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7784493b-4899-4f92-b9b0-24190ba12295" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 4387403859385740712,
+    &quot;totalPrice&quot;: 396.00,
+    &quot;campaignId&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;discountedPrice&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;quantity&quot;: 4,
+            &quot;price&quot;: 99.00,
+            &quot;name&quot;: &quot;apple&quot;
+        }
+    ]
+}</code></pre><p id="ceeaeff9-5866-4001-889c-8efcf9b52324" class="">
+</p></details></li></ul><ul id="8b71a581-f80e-4b4c-bc2d-806284eb4113" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Remove Product from Bag</span></strong></code></mark><mark class="highlight-default">   Removes a specified quantity of a product from a bag.</mark></summary><p id="04c5692c-78dc-4172-b099-ad75ed8e27f2" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e66ef60b-ff79-44df-bb57-353176d01754" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/bags/products</code></pre><p id="764bb85b-f6ca-4c7a-bb2e-9eef3e361bc8" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="30f43ea9-6d62-47b0-9c15-975f160619b2" class="code"><code class="language-JSON">bagId (long, required): where the product will be removed
+barcode (string, required): of the product to be remove
+quantity (integer, required): number of products to be removed</code></pre><p id="02dfa2a2-1d94-4baa-9f46-190598306f1e" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d092761b-a4eb-4765-b120-f6fbd3c8267a" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 4387403859385740712,
+    &quot;totalPrice&quot;: 594.00,
+    &quot;campaignId&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;discountedPrice&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;quantity&quot;: 6,
+            &quot;price&quot;: 99.00,
+            &quot;name&quot;: &quot;apple&quot;
+        }
+    ]
+}</code></pre><p id="b50831d6-739d-415a-add6-9ca3dc35a34a" class="">
+</p></details></li></ul><ul id="d917cd93-cfd6-42ab-86c3-70518515a7ea" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Remove All Products from Bag</span></strong></code></mark><mark class="highlight-default">   Removes all products from a specified bag.</mark></summary><p id="4c84ede3-4218-4af8-8fde-6cbbdcd9d9fc" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="670b23a8-1ba4-47ba-950d-8ac84ac2aa0d" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/bags/{bagId}/products</code></pre><p id="cdf254fd-ab4b-4a5b-b52b-6d299bd5e29d" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="71703bce-8501-44c4-93ba-9a0ea9ac9823" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 4387403859385740712,
+    &quot;totalPrice&quot;: 0,
+    &quot;campaignId&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;discountedPrice&quot;: null,
+    &quot;items&quot;: []
+}</code></pre><p id="0e8eb51e-aec6-41a5-a87a-b1d6bdc551b9" class="">
+</p></details></li></ul><ul id="36b0be39-5214-4781-b5a7-b0bdb9e8d177" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete Bag</span></strong></code></mark><mark class="highlight-default">   Deletes a specified bag.</mark></summary><p id="720f2fb4-da8e-40d0-ad1f-84e3008c818d" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9019f093-9055-4688-b158-688db6b7cc8b" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/bags/{bagId}</code></pre><p id="796825d4-a0bd-4633-85b1-f33f89b86568" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e45f94db-e43d-4404-9f28-a80219aa4070" class="code"><code class="language-JSON">The bag with ID {bagId} has been deleted.</code></pre><p id="d8f22bb6-cbf9-46f3-9679-3f9110f35881" class="">
+</p></details></li></ul><ul id="674480c3-7ebb-4c22-bff3-80c45f0d2537" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Bag</span></strong></code></mark><mark class="highlight-default">   Retrieves the details of a specific bag by its ID.</mark></summary><p id="29d2fd64-8490-40ec-8df4-1c70cb8461c3" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3f353480-7919-4a57-be31-fd7d9bd1fbf9" class="code"><code class="language-JSON">GET  http://localhost:8889/sale/bags/{bagId}</code></pre><p id="1901caaa-9700-46fa-bd63-567a9cf9ef3d" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6cc28ca9-fa0a-43bf-aa4c-e26a5dd928b7" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 6060537102774227178,
+    &quot;totalPrice&quot;: 43.96,
+    &quot;campaignId&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;discountedPrice&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;quantity&quot;: 4,
+            &quot;price&quot;: 10.99,
+            &quot;name&quot;: &quot;apple&quot;
+        }
+    ]
+}</code></pre><p id="e579453f-5106-4da9-b4f8-2855f94efaab" class="">
+</p></details></li></ul><ul id="74733a30-d4ec-4c83-b3a3-652c8d6dbdd5" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get All Bags</span></strong></code></mark><mark class="highlight-default">   Retrieves a page of all bags.</mark></summary><p id="13d5d08f-8133-4bef-b8dd-bfe4dcfc9b58" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b3c73f1-2bdc-4af2-a40c-76803f9c50bd" class="code"><code class="language-JSON">GET  http://localhost:8889/sale/bags</code></pre><p id="a03a6919-afba-424b-9e1d-215fc243603d" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="473a4f06-f977-44c1-92d0-18870fe0c9a1" class="code"><code class="language-JSON">pageSize (integer, optional): The number of users to return per page.
+pageNumber (integer, optional): The page number to retrieve.</code></pre><p id="ca775e57-713a-4ddb-b7fc-a6e1ec4c42ba" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8640edda-a243-40e9-bece-68016961af94" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;id&quot;: 6060537102774227178,
+            &quot;totalPrice&quot;: 43.96,
+            &quot;campaignId&quot;: null,
+            &quot;campaignName&quot;: null,
+            &quot;discountType&quot;: null,
+            &quot;discountValue&quot;: 0.0,
+            &quot;discountedPrice&quot;: null,
+            &quot;items&quot;: [
+                {
+                    &quot;barcode&quot;: &quot;12345&quot;,
+                    &quot;quantity&quot;: 4,
+                    &quot;price&quot;: 10.99,
+                    &quot;name&quot;: &quot;apple&quot;
+                }
+            ]
+        }
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: [],
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;last&quot;: true,
+    &quot;totalPages&quot;: 1,
+    &quot;totalElements&quot;: 1,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: [],
+    &quot;first&quot;: true,
+    &quot;numberOfElements&quot;: 1,
+    &quot;empty&quot;: false
+}</code></pre><p id="fa9fa85a-a6f3-4c5f-9616-32190cf206b6" class="">
+</p></details></li></ul><hr id="312b62a7-41ab-4b96-ab77-100d43c7fed9"/><p id="a6a518cd-de1e-4360-a949-b9f9d3a2b2b7" class=""><em><strong>Campaign:</strong></em></p><ul id="8077c776-1222-4bf2-a27d-6404c32e49d2" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Add Campaign</span></strong></code></mark><mark class="highlight-default">   Adds a new campaign.</mark></summary><p id="473a7acf-aea6-416e-b1cb-9996fef8a347" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="448ffbec-c553-4e3f-a12c-fdffd6329c7d" class="code"><code class="language-JSON">POST  http://localhost:8889/sale/campaigns</code></pre><p id="5b921402-2c97-49e4-8f99-7dd1e846c613" class=""><em><mark class="highlight-gray"><code>Body</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="30a83977-3508-486d-a560-5318bb203115" class="code"><code class="language-undefined">{
+    &quot;name&quot;: &quot;Special&quot;,
+    &quot;startDate&quot;: &quot;2024-01-01&quot;,
+    &quot;endDate&quot;: &quot;2024-12-31&quot;,
+    &quot;discountType&quot;: &quot;PERCENTAGE&quot;,  // or &quot;FIXED_AMOUNT&quot;
+    &quot;discountValue&quot;: 10
+}</code></pre><p id="da1ca8df-810a-4410-801f-506e60074169" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="747b1b55-3553-4525-92d3-7aa506986593" class="code"><code class="language-JSON">Successfully added campaign</code></pre><p id="60dc3ea7-3690-469a-a831-5f56d748786f" class="">
+</p></details></li></ul><ul id="e3b1c323-3731-4cfa-861d-e51e4858fb13" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><code><strong><span style="border-bottom:0.05em solid">Update Campaign Dates</span></strong></code></mark><mark class="highlight-default">   Updates the start and end dates of a specified campaign.</mark></summary><p id="bac59941-4645-4d82-89e1-4b48657a9aee" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0c1c2779-771e-4a6d-9c76-7749fcbf461f" class="code"><code class="language-JSON">PUT  http://localhost:8889/sale/campaigns/{campaignId}</code></pre><p id="76dfc335-588f-4fda-934e-8d1e5125b804" class=""><em><mark class="highlight-gray"><code>Body (form-data)</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="558aa6da-0ad2-4088-8114-9f5ea9115470" class="code"><code class="language-JSON">startDate (optional):   ex: 2024-03-01
+endDate (optional):   ex: 2024-07-02</code></pre><p id="a7f17339-ddfb-4c5a-ac57-10342352b013" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="975b2de1-c07c-44f9-b59b-49e11cebaedc" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 2,
+    &quot;name&quot;: &quot;Special&quot;,
+    &quot;startDate&quot;: &quot;2024-03-01T00:00:00&quot;,
+    &quot;endDate&quot;: &quot;2024-07-02T00:00:00&quot;,
+    &quot;discountType&quot;: &quot;PERCENTAGE&quot;,
+    &quot;discountValue&quot;: 10.0,
+    &quot;deleted&quot;: false
+}</code></pre><p id="cf89f798-c457-4de2-8481-dd90e0eeb5ce" class="">
+</p></details></li></ul><ul id="37ec92e9-79b0-4b75-aac7-cc5f88501c5a" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete Campaign</span></strong></code></mark><mark class="highlight-default">   Deletes a specified campaign.</mark></summary><p id="bcc0c41f-786b-4537-b751-fc9e799510c2" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4b878faf-40b8-45e1-bb67-78ad7da081bb" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/campaigns/{campaignId}</code></pre><p id="0a4c84b7-a5d1-4388-924e-0a4cd3108a44" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4bade2b0-2d28-4a69-bbc5-ee90e5122864" class="code"><code class="language-JSON">Campaign with ID {campaingId} succesfully deleted</code></pre><p id="b651ac0c-d9c9-45e0-baaa-ff256a49517e" class="">
+</p></details></li></ul><ul id="f96b6c70-e893-403a-ad5e-c8b88db4d870" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Campaign</span></strong></code></mark><mark class="highlight-default">   Retrieves the details of a specified campaign.</mark></summary><p id="a7aee5ce-b276-43a6-a100-681ff248a8dc" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5bead71b-facd-4170-a3e2-05ef10b29a63" class="code"><code class="language-JSON">GET  http://localhost:8889/sale/campaigns/{campaignId}</code></pre><p id="98b862e6-6615-4de5-bb06-814020e8df20" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="32a0fe7c-9443-43fa-8ba2-1a724af708a9" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 2,
+    &quot;name&quot;: &quot;Special&quot;,
+    &quot;startDate&quot;: &quot;2024-03-01T00:00:00&quot;,
+    &quot;endDate&quot;: &quot;2024-07-02T00:00:00&quot;,
+    &quot;discountType&quot;: &quot;PERCENTAGE&quot;,
+    &quot;discountValue&quot;: 10.0,
+    &quot;deleted&quot;: false
+}</code></pre><p id="8e0d4dcb-2244-4e53-b708-fd787a7559ee" class="">
+</p></details></li></ul><ul id="fc8fdc2d-3816-4b78-892c-503ef46c34a6" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get All Campaigns</span></strong></code></mark><mark class="highlight-default">   Retrieves a page of all campaigns.</mark></summary><p id="39e8a3f2-0e37-4c5a-be7d-986b4f968e35" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1252c336-36a5-47c4-98ab-12429df393eb" class="code"><code class="language-JSON">GET  http://localhost:8889/sale/campaigns</code></pre><p id="011df319-187a-4574-8274-5a0a4f798a35" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="48c326bd-cb43-45fc-9a51-1cf3543a4750" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Special&quot;,
+            &quot;startDate&quot;: &quot;2024-03-01T00:00:00&quot;,
+            &quot;endDate&quot;: &quot;2024-07-02T00:00:00&quot;,
+            &quot;discountType&quot;: &quot;PERCENTAGE&quot;,
+            &quot;discountValue&quot;: 10.0,
+            &quot;deleted&quot;: false
+        }
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: [],
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;last&quot;: true,
+    &quot;totalElements&quot;: 2,
+    &quot;totalPages&quot;: 1,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: [],
+    &quot;first&quot;: true,
+    &quot;numberOfElements&quot;: 2,
+    &quot;empty&quot;: false
+}</code></pre><p id="bb76be40-ea34-4175-91b9-a656e2830e23" class="">
+</p></details></li></ul><ul id="fb570e4b-7551-4765-ad16-5060e701acf8" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Apply Campaign to Bag</span></strong></code></mark><mark class="highlight-default">   Applies a specified campaign to a specified bag.</mark></summary><p id="2b46c0e5-5d8c-4504-9695-50ff8c73e3fe" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4cae09a2-a960-4fe7-b02a-516768addd81" class="code"><code class="language-JSON">POST  http://localhost:8889/sale/bags/{bagId}/campaign/{campaignId}</code></pre><p id="a43d65fd-5407-4264-9ee4-1b3135f96841" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d947942f-9cc1-4957-828b-cce07b5b9ae9" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 7914831916575554169,
+    &quot;totalPrice&quot;: 396.00,
+    &quot;campaignId&quot;: 2,
+    &quot;campaignName&quot;: &quot;Special&quot;,
+    &quot;discountType&quot;: &quot;PERCENTAGE&quot;,
+    &quot;discountValue&quot;: 10.0,
+    &quot;discountedPrice&quot;: 356.40,
+    &quot;items&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;quantity&quot;: 4,
+            &quot;price&quot;: 99.00,
+            &quot;name&quot;: &quot;apple&quot;
+        }
+    ]
+}</code></pre><p id="7a49ae33-0978-45d3-be65-1e6c8df325ee" class="">
+</p></details></li></ul><ul id="86259588-4fe9-4d98-ac51-e86ab8468150" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Remove Campaign from Bag</span></strong></code></mark><mark class="highlight-default">   Removes a campaign from a specified bag.</mark></summary><p id="2830e0ec-611a-49fd-b056-83f208477288" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="822e5aa0-e11f-4695-9a70-1f6fb0519373" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/bags/{bagId}/campaign</code></pre><p id="45d118bf-8a92-4c8e-9f5a-5716b93a5c83" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="12fc3370-2e90-4b43-8d9e-a034c25ba563" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 7914831916575554169,
+    &quot;totalPrice&quot;: 396.00,
+    &quot;campaignId&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;discountedPrice&quot;: null,
+    &quot;items&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;quantity&quot;: 4,
+            &quot;price&quot;: 99.00,
+            &quot;name&quot;: &quot;apple&quot;
+        }
+    ]
+}</code></pre><p id="0fd4bab3-1d6f-424a-8346-a8967e7e307a" class="">
+</p></details></li></ul><hr id="08e8e2bc-7386-4d48-b515-7ceaded8f41f"/><p id="1714d2f0-e4c7-4428-99cc-d7c5e1538232" class=""><em><strong>Sale:</strong></em></p><ul id="f31c5a05-17bc-4f4b-884c-6832e040532d" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Complete Sale</span></strong></code></mark><mark class="highlight-default">   Completes the sale of a bag, processing payment and generating a receipt tracking code.</mark></summary><p id="34102c9c-2d86-42b3-9ae3-78bbd741bd8f" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b6467765-9c2c-4e69-9a12-e9f9e61bca65" class="code"><code class="language-JSON">POST  http://localhost:8889/sale/{bagId}</code></pre><p id="14110940-6c4d-4efc-9aeb-d911a813569c" class=""><em><mark class="highlight-gray"><code>Parameters</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f6a7a22a-4eb4-428d-92d4-3bf715c34bc3" class="code"><code class="language-JSON">amountReceived (Big decimal, required):   amount received for payment.
+paymentMethod (Enum, required):   CREDIT_CARD or CASH</code></pre><p id="55c1e77a-9860-41d0-a205-b787369c27b2" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1ae11ca3-a9fd-4315-b592-1d798ff11ccb" class="code"><code class="language-JSON">{
+    &quot;requestId&quot;: &quot;9000cc8b-a605-4222-b6d2-fdabcf2f5c53&quot;,
+    &quot;saleDto&quot;: {
+        &quot;id&quot;: 101,
+        &quot;cashierName&quot;: &quot;userName&quot;,
+        &quot;totalPrice&quot;: 396.00,
+        &quot;discountedPrice&quot;: null,
+        &quot;campaignName&quot;: null,
+        &quot;campaignId&quot;: null,
+        &quot;discountType&quot;: null,
+        &quot;discountValue&quot;: 0.0,
+        &quot;amountReceived&quot;: 396.00,
+        &quot;change&quot;: 0,
+        &quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,
+        &quot;saleDate&quot;: &quot;2024-06-24T15:36:59.180124041&quot;,
+        &quot;saleItems&quot;: [
+            {
+                &quot;barcode&quot;: &quot;12345&quot;,
+                &quot;name&quot;: &quot;apple&quot;,
+                &quot;quantity&quot;: 4,
+                &quot;salePrice&quot;: 99.00
+            }
+        ],
+        &quot;cancelled&quot;: false
+    }
+}</code></pre><p id="8b7e7617-5210-4be9-8ae0-9a0ebcfde9a6" class="">
+</p></details></li></ul><ul id="38aa1d96-26e5-4d65-b135-e87003e1910d" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Cancel Sale</span></strong></code></mark><mark class="highlight-default">   Cancels a specified sale, reversing the transaction.</mark></summary><p id="1da79ce3-c4d9-4baa-b047-46b09d3ee22a" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e41629f1-511a-4bf9-b53b-f1f1e73cc757" class="code"><code class="language-JSON">DELETE  http://localhost:8889/sale/{saleId}/cancel</code></pre><p id="d7a06808-7374-451f-b935-46ec317be7e1" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19344315-08be-41e2-a398-fde17cd17a31" class="code"><code class="language-JSON">Sale successfully cancelled.</code></pre><p id="90bb91ea-c680-4c3f-871c-05e6a8c182c7" class="">
+</p></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Reporting Service</summary><div class="indented"><blockquote id="8221a32d-82bc-4787-84be-538f95d8e0ba" class=""><strong>Note:</strong>  The user must have the <code>MANAGER</code> role.</blockquote><hr id="60d6b71b-3f55-4298-a459-9aee442aab96"/><ul id="6f79f24c-5c27-4bc9-936c-0ad5ade7a4ba" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Sale</span></strong></code></mark><mark class="highlight-default">   Retrieves the details of a specific sale by its ID.</mark></summary><p id="f08534ed-3272-47d0-a224-5a6bebab6358" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="28daceaf-e6a5-4d6f-8528-139bfe0bfade" class="code"><code class="language-JSON">GET  http://localhost:8889/report/{saleId}</code></pre><p id="05ff2e15-4299-4595-802c-8891282170e3" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eaedae3f-52f2-4f77-af59-1d2b9a2f0f0a" class="code"><code class="language-JSON">{
+    &quot;id&quot;: 101,
+    &quot;cashierName&quot;: &quot;userName&quot;,
+    &quot;totalPrice&quot;: 396.00,
+    &quot;discountedPrice&quot;: null,
+    &quot;campaignName&quot;: null,
+    &quot;campaignId&quot;: null,
+    &quot;discountType&quot;: null,
+    &quot;discountValue&quot;: 0.0,
+    &quot;amountReceived&quot;: 396.00,
+    &quot;change&quot;: 0.00,
+    &quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,
+    &quot;saleDate&quot;: &quot;2024-06-24T15:36:59.180124&quot;,
+    &quot;saleItems&quot;: [
+        {
+            &quot;barcode&quot;: &quot;12345&quot;,
+            &quot;name&quot;: &quot;apple&quot;,
+            &quot;quantity&quot;: 4,
+            &quot;salePrice&quot;: 99.00
+        }
+    ],
+    &quot;cancelled&quot;: true
+}</code></pre><p id="c87665b1-ee56-4a2f-9400-f0b8abb4a43e" class="">
+</p></details></li></ul><ul id="c50094a1-35c4-45af-a805-efe96809c459" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Sales By Criteria</span></strong></code></mark><mark class="highlight-default">   Retrieves a list of sales based on the provided search criteria.</mark></summary><p id="113075fb-e089-411a-baf4-a7242ef0c469" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9285469c-cc3f-42a9-9248-efa040033781" class="code"><code class="language-JSON">GET  http://localhost:8889/report</code></pre><p id="2a5fb2da-0ae4-4e09-bdad-73a6b21ca274" class=""><em><mark class="highlight-gray"><code>Body</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ccc94b3-260e-46c7-a5cf-0684e90c851c" class="code"><code class="language-JSON">{
+    &quot;minTotalPrice&quot;: 1,
+    &quot;maxTotalPrice&quot;: 100000,
+    //&quot;hasCampaign&quot;: false,
+    //&quot;campaignId&quot;: 1,
+    &quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,   //or &quot;CASH&quot;
+    &quot;saleDateStart&quot;: &quot;2024-01-14T00:00:00&quot;,
+    &quot;saleDateEnd&quot;: &quot;2024-12-19T23:59:59&quot;,
+    &quot;sortBy&quot;: &quot;saleDate&quot;,
+    &quot;sortDir&quot;: &quot;asc&quot;,
+    &quot;page&quot;: 1,
+    &quot;size&quot;: 10,
+    &quot;includeCanceled&quot;: false
+}</code></pre><ul id="9920b1a4-bd63-4f87-8c3a-83bd56573d1a" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>minTotalPrice</strong> (BigDecimal, optional):     Must be greater than 0.</li></ul><ul id="97f5d841-9803-483b-9526-fa6f67c3e89b" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>hasCampaign</strong> (Boolean, optional):    Filter sales that have or do not have a campaign.</li></ul><ul id="e51a3583-9772-4888-96e7-a3f0abe51187" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>campaignId</strong> (Long, optional):    Filter sales by a specific campaign ID.</li></ul><ul id="2e2d86e1-1e92-4b01-8490-f700df270f1c" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>paymentMethod</strong> (Enum, optional):    Filter sales by the payment method used.</li></ul><ul id="5f0bd230-72b9-445d-8a22-1ac6e9ffc869" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>saleDateStart</strong> (String, optional):     Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="961ae669-766a-4d33-af74-74bf829c0192" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>saleDateEnd</strong> (String, optional):    Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="9f8ed90c-aaa9-463d-947c-3d7b18be554d" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>sortBy</strong> (String, optional):    Sort the sales by &#x27;<strong>saleDate</strong>&#x27;, &#x27;<strong>totalPrice</strong>&#x27;, or &#x27;<strong>discountedPrice</strong>&#x27;.</li></ul><ul id="08a45337-ed9b-42da-b3dc-ec4e3a0e2eed" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>sortDir</strong> (String, optional):    either &#x27;<strong>asc</strong>&#x27; or &#x27;<strong>desc</strong>&#x27;.</li></ul><ul id="d6d2328f-b182-4acc-95e0-b6980978a0c2" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>page</strong> (Integer, optional):    Must be at least 1.</li></ul><ul id="a3c0f0f8-7961-405b-b3f2-0e0ddca19828" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>size</strong> (Integer, optional):    Must be at least 1.</li></ul><ul id="f00f7dc3-08d1-4176-95e2-64d344f11c9b" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>includeCanceled</strong> <em>(Boolean, optional):  </em>  Include canceled sales in the results.</li></ul><p id="58e6e48d-f7b9-451d-8152-9fb09297b457" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="483a4500-9267-4998-a99f-8001c5021327" class="code"><code class="language-JSON">{
+    &quot;content&quot;: [
+        {
+            &quot;id&quot;: 87,
+            &quot;cashierName&quot;: &quot;Cathryn Fritsch&quot;,
+            &quot;totalPrice&quot;: 770.22,
+            &quot;discountedPrice&quot;: 735.52,
+            &quot;campaignName&quot;: &quot;Dickinson LLC&quot;,
+            &quot;campaignId&quot;: 758206,
+            &quot;discountType&quot;: &quot;FIXED_AMOUNT&quot;,
+            &quot;discountValue&quot;: 34.7,
+            &quot;amountReceived&quot;: 748.30,
+            &quot;change&quot;: 12.78,
+            &quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,
+            &quot;saleDate&quot;: &quot;2024-01-18T10:04:09.593796&quot;,
+            &quot;saleItems&quot;: [
+                {
+                    &quot;barcode&quot;: &quot;0867826509&quot;,
+                    &quot;name&quot;: &quot;Ergonomic Marble Gloves&quot;,
+                    &quot;quantity&quot;: 5,
+                    &quot;salePrice&quot;: 93.97
+                }
+            ],
+            &quot;cancelled&quot;: false
+        }
+    ],
+    &quot;pageable&quot;: {
+        &quot;pageNumber&quot;: 0,
+        &quot;pageSize&quot;: 10,
+        &quot;sort&quot;: {
+            &quot;empty&quot;: false,
+            &quot;unsorted&quot;: false,
+            &quot;sorted&quot;: true
+        },
+        &quot;offset&quot;: 0,
+        &quot;paged&quot;: true,
+        &quot;unpaged&quot;: false
+    },
+    &quot;totalElements&quot;: 19,
+    &quot;totalPages&quot;: 2,
+    &quot;last&quot;: false,
+    &quot;size&quot;: 10,
+    &quot;number&quot;: 0,
+    &quot;sort&quot;: {
+        &quot;empty&quot;: false,
+        &quot;unsorted&quot;: false,
+        &quot;sorted&quot;: true
+    },
+    &quot;numberOfElements&quot;: 10,
+    &quot;first&quot;: true,
+    &quot;empty&quot;: false
+}</code></pre><p id="7dcd88b2-6688-4039-aeff-721d0b93120a" class="">
+</p></details></li></ul><ul id="08084ae5-baca-4f06-9f41-412cc582d496" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get Sales Excel File By Criteria</span></strong></code></mark><mark class="highlight-default">   Generates an Excel file of sales based on the provided search criteria and sends it to the specified email.</mark></summary><p id="14db706e-d993-49fb-82a2-ce550209c3ee" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bd6cf8f1-b22b-49a3-a20e-9f4844c607c0" class="code"><code class="language-JSON">GET  http://localhost:8889/report/excel</code></pre><p id="6e56fbfb-075f-4219-b884-8a073ec46bbd" class=""><em><mark class="highlight-gray"><code>Parameter</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0e939dce-067f-4296-91ad-f9dfaae5eb53" class="code"><code class="language-JSON">email (required): The address to which the excel file will be directed.</code></pre><p id="9745f9ca-2030-43f7-b2dc-9e8bdc676e83" class=""><em><mark class="highlight-gray"><code>Body</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="820891c5-f070-409e-9cfb-e2c12ccf25dc" class="code"><code class="language-JSON">{
+    &quot;minTotalPrice&quot;: 1,
+    &quot;maxTotalPrice&quot;: 100000,
+    //&quot;hasCampaign&quot;: false,
+    //&quot;campaignId&quot;: 1,
+    //&quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,    or &quot;CASH&quot;
+    &quot;saleDateStart&quot;: &quot;2024-01-14T00:00:00&quot;,
+    &quot;saleDateEnd&quot;: &quot;2024-12-14T23:59:59&quot;,
+    &quot;includeCanceled&quot;: false
+}
+</code></pre><ul id="38e504c6-1f6d-4d13-b053-6695aa78c024" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>minTotalPrice</strong> (BigDecimal, optional):     Must be greater than 0.</li></ul><ul id="b0ca490c-2a88-4c7a-b5eb-d2298f2de660" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>hasCampaign</strong> (Boolean, optional):    Filter sales that have or do not have a campaign.</li></ul><ul id="865ec71a-6985-47f8-abcf-56e4f301ee15" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>campaignId</strong> (Long, optional):    Filter sales by a specific campaign ID.</li></ul><ul id="a99340c7-02a8-4745-9711-dbf3ac7e2e6d" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>paymentMethod</strong> (Enum, optional):    Filter sales by the payment method used.</li></ul><ul id="12d6cc26-efad-4c4a-999b-613525e9537e" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>saleDateStart</strong> (String, optional):     Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="cc15681c-1f42-49f3-8f9a-0af85ea07f19" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>saleDateEnd</strong> (String, optional):    Must be in the format &#x27;yyyy-MM-ddTHH:mm&#x27;.</li></ul><ul id="40aff893-ead1-4bb6-867a-19040f712fd2" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>includeCanceled</strong> <em>(Boolean, optional):  </em>  Include canceled sales in the results.</li></ul><p id="99528c83-5ac8-4253-9de9-717161badc8f" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c4f408e-26b5-4068-bcdd-67f4af04ed5e" class="code"><code class="language-JSON">Excel report request received. The report will be sent to: {email}</code></pre><p id="81504c21-00b0-4340-b4a3-6faec4aba631" class="">
+</p></details></li></ul><ul id="ce000ed6-6ebb-4984-9fb4-9bcb068e5a56" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Generate Receipt</span></strong></code></mark><mark class="highlight-default">   It receives a request to create a pdf of the sale and returns the request id.</mark></summary><p id="b4b8f970-4171-4963-bb8e-a45ec386460d" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c767b0b-07e6-441b-be5f-3ca39dda9883" class="code"><code class="language-JSON">POST  http://localhost:8889/report/generate-receipt/{saleId}</code></pre><p id="e9f90260-4ec2-42dc-8077-9db218d5407c" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2f89999a-cbe6-4681-adeb-8c38cadc031b" class="code"><code class="language-JSON">Tracking request id: {requestId}</code></pre><p id="489eaaba-cf51-405e-b7aa-880bd21519bb" class="">
+</p></details></li></ul><ul id="69634ce0-5a65-4aae-8f42-67bc87dc852b" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Receipt Status</span></strong></code></mark><mark class="highlight-default">   Retrieves the status of a receipt generation request.</mark></summary><p id="8f66c9b9-2363-4815-94d4-9746c2dc60aa" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ee1a70b-cc6f-4087-9109-0a63fe6b6c77" class="code"><code class="language-JSON">GET  http://localhost:8889/report/status/receipt/{requestId}</code></pre><p id="31a92ddb-fb3e-4b18-94b1-803e7ec7e8ad" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0e554499-5d8d-4505-95ab-01b98cb3adbf" class="code"><code class="language-JSON">PDF Receipt file.  (fail or processing is also an option)</code></pre><p id="9414aba1-94c0-447c-ba3f-f063eae7bf46" class="">
+</p></details></li></ul><ul id="e5ddb915-3480-4eb5-9231-b8868e21a043" class="toggle"><li><details open=""><summary><mark class="highlight-orange"><code><strong><span style="border-bottom:0.05em solid">Create Schedule Job</span></strong></code></mark><mark class="highlight-default">   Schedules a reporting job based on the provided criteria and sends reports to the specified email at the specified interval.</mark></summary><p id="183bd692-ab45-432a-9b5b-1604d749450d" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7d5e06c8-e79e-4d36-aca9-d465d0c9e4ac" class="code"><code class="language-JSON">POST  http://localhost:8889/report/schedule</code></pre><p id="5b540bf9-29fd-4d2c-bd0e-74a87c45c3dd" class=""><em><mark class="highlight-gray"><code>Body</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c5e605ea-2423-42e6-9ca6-e17e2b3fe9a6" class="code"><code class="language-JSON">{
+  &quot;criteria&quot;: {
+    &quot;minTotalPrice&quot;: 1,
+    &quot;maxTotalPrice&quot;: 1000000,
+    //&quot;hasCampaign&quot;: true,
+    //&quot;campaignId&quot;: 1,
+    //&quot;paymentMethod&quot;: &quot;CREDIT_CARD&quot;,   or &quot;CASH&quot;
+    //&quot;includeCanceled&quot;: false,
+    &quot;lookbackPeriodInDays&quot;: 30
+  },
+  &quot;email&quot;: &quot;emiraktas143@gmail.com&quot;,
+  &quot;jobName&quot;: &quot;monthlySalesReportJob&quot;,
+  &quot;daysInterval&quot;: 1
+  }</code></pre><ul id="a68bf73f-46b7-4ea5-87ac-f2f843f45931" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>criteria</strong> (SaleSearchCriteriaForJob, required):    Must not be null and must be valid. A report is sent only based on the added criteria.<ul id="e865c439-f654-4565-a36a-3cbcafe90830" class="bulleted-list"><li style="list-style-type:circle"><strong>lookbackPeriodInDays:</strong>   The period in days to look back for sales data.</li></ul><ul id="01757128-2d42-42a5-abbf-f58d2a3338a9" class="bulleted-list"><li style="list-style-type:circle"><strong>minTotalPrice:</strong>   Must be greater than 0.</li></ul><ul id="ee0ac9e6-7ddc-4483-943b-4f38c11a4d63" class="bulleted-list"><li style="list-style-type:circle"><strong>maxTotalPrice:  </strong> The maximum total price of the sales to be retrieved.</li></ul><ul id="cdf1c6ac-17e6-4326-9d41-d890180317f4" class="bulleted-list"><li style="list-style-type:circle"><strong>hasCampaign:</strong>   Boolean flag to filter sales that have or do not have a campaign.</li></ul><ul id="5325add9-be06-43b2-99f9-ace878b1dea3" class="bulleted-list"><li style="list-style-type:circle"><strong>campaignId:</strong>   Filter sales by a specific campaign ID.</li></ul><ul id="7f99dfa5-0fcf-432d-bd55-52eeb29a8f2e" class="bulleted-list"><li style="list-style-type:circle"><strong>includeCanceled:</strong>   Boolean flag to include canceled sales in the results.</li></ul><ul id="e3e9440a-09a0-41f7-9c8d-dda60382d058" class="bulleted-list"><li style="list-style-type:circle"><strong>paymentMethod:  </strong> Filter sales by the payment method used.</li></ul></li></ul><ul id="f0f3cab5-1922-4edb-b204-7bf67267ac19" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>email</strong> (String, required):    The email to which the report will be sent. Must be a valid email format and not blank.</li></ul><ul id="ad98dfb9-87f0-45f0-96af-bdac8ed0b98c" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>jobName</strong> (String, required):    The name of the job. Must not be blank.</li></ul><ul id="1d2f8ce8-db4f-442e-a332-e60ddd7749b5" class="block-color-gray bulleted-list"><li style="list-style-type:disc"><strong>daysInterval</strong> (Integer, required):    The interval in days at which the report will be generated and sent. Must be at least 1.</li></ul><p id="d2fe3633-ccea-4ffa-9e02-a93f90279c04" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6df9a3ba-d63e-45e3-9ef1-e1a70ceb6c1b" class="code"><code class="language-JSON">Job scheduled successfully: {jobName}</code></pre><p id="0363c656-eb02-488d-9e9f-d60cc7a8dbdd" class="">
+</p></details></li></ul><ul id="0d63d39b-c0cc-4d54-8eb7-c92c1ef15fb4" class="toggle"><li><details open=""><summary><mark class="highlight-teal"><code><strong><span style="border-bottom:0.05em solid">Get All Jobs</span></strong></code></mark><mark class="highlight-default">   Lists all scheduled reporting jobs.</mark></summary><p id="2854183d-8391-4756-884d-70bf0dc57789" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="451f62dd-7b7e-40df-afcd-03a3597d986f" class="code"><code class="language-JSON">GET  http://localhost:8889/report/schedule/list</code></pre><p id="d8382092-2a43-4bed-bddc-2522ad58cbe8" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6a1d2027-baad-43d5-b151-3a84114efe13" class="code"><code class="language-JSON">[
+    {
+        &quot;jobName&quot;: &quot;monthlySalesReportJo&quot;,
+        &quot;email&quot;: &quot;emiraktas143@gmail.com&quot;,
+        &quot;nextFireTime&quot;: &quot;Mon Jun 24 17:15:47 UTC 2024&quot;,     
+        &quot;criteria&quot;: {
+            &quot;minTotalPrice&quot;: 1,
+            &quot;maxTotalPrice&quot;: 1000000,
+            &quot;hasCampaign&quot;: null,
+            &quot;campaignId&quot;: null,
+            &quot;paymentMethod&quot;: null,
+            &quot;includeCanceled&quot;: null,
+            &quot;lookbackPeriodInDays&quot;: 1000
+        }
+    }
+]</code></pre><p id="61b30b8a-4187-462c-8a5d-f9e6ade9b80c" class="">
+</p></details></li></ul><ul id="db60265b-066b-4c34-a8cf-6e29e0f89a10" class="toggle"><li><details open=""><summary><mark class="highlight-red"><code><strong><span style="border-bottom:0.05em solid">Delete Job</span></strong></code></mark><mark class="highlight-default">   Cancels a specified reporting job.</mark></summary><p id="ce670ec3-15d5-4100-8514-b7b72c6be9e8" class=""><em><mark class="highlight-gray"><code>Request</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f3210464-6c82-451e-8d5c-8262a8e55631" class="code"><code class="language-JSON">DELETE  http://localhost:8889/report/schedule/cancel/{jobName}</code></pre><p id="63b9e8cd-9f3e-46d0-9428-4523ddf11f8f" class=""><em><mark class="highlight-gray"><code>Response</code></mark></em></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c76308d-bfa6-49d0-9dce-cf849c51d006" class="code"><code class="language-JSON">Job cancelled successfully: {jobName}</code></pre><p id="53afd22b-eefd-40ba-a2ca-55d24ee6c379" class="">
+</p></details></li></ul><p id="507f5e1d-38e9-4d7b-97f9-4b8040cb8ebd" class="">
+</p><p id="27cd9993-b94b-465f-b8fb-897199161e66" class="">
+</p></div></details><p id="6d1acfe7-ac63-4480-a56d-98fd6741647b" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
