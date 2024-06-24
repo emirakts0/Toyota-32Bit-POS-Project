@@ -32,6 +32,7 @@ public class BagController {
         return ResponseEntity.ok(bagDto);
     }
 
+
     @DeleteMapping("/products")
     public ResponseEntity<BagDto> removeProductFromBag(@RequestParam(defaultValue = "") Long bagId,
                                                        @RequestParam(defaultValue = "") String barcode,
@@ -44,6 +45,7 @@ public class BagController {
         return ResponseEntity.ok(bagDto);
     }
 
+
     @DeleteMapping("/{bagId}/products")
     public ResponseEntity<BagDto> removeAllProductsInTheBag(@PathVariable Long bagId) {
         log.trace("removeAllProductsInTheBag endpoint called with bagId: {}", bagId);
@@ -52,6 +54,7 @@ public class BagController {
         return ResponseEntity.ok(bagDto);
     }
 
+
     @GetMapping("/{bagId}")
     public ResponseEntity<BagDto> getBagById(@PathVariable Long bagId) {
         log.trace("getBagById endpoint called with bagId: {}", bagId);
@@ -59,6 +62,7 @@ public class BagController {
         BagDto bagDto = bagService.getBagById(bagId);
         return ResponseEntity.ok(bagDto);
     }
+
 
     @GetMapping
     public ResponseEntity<Page<BagDto>> getAllBags(@RequestParam(defaultValue = "1") int pageNumber,
@@ -69,6 +73,7 @@ public class BagController {
         return ResponseEntity.ok().body(bagPage);
     }
 
+
     @DeleteMapping("/{bagId}")
     public ResponseEntity<String> deleteBag(@PathVariable Long bagId) {
         log.trace("deleteBag endpoint called with bagId: {}", bagId);
@@ -76,6 +81,7 @@ public class BagController {
         bagService.deleteBagById(bagId);
         return ResponseEntity.ok().body(String.format("The bag with ID %d has been deleted.", bagId));
     }
+
 
     @PostMapping("/{bagId}/campaign/{campaignId}")
     public ResponseEntity<BagDto> applyCampaignToBag(@PathVariable Long bagId,
@@ -85,6 +91,7 @@ public class BagController {
         BagDto bagDto = bagService.applyCampaignToBag(bagId, campaignId);
         return ResponseEntity.ok(bagDto);
     }
+
 
     @DeleteMapping("/{bagId}/campaign")
     public ResponseEntity<BagDto> removeCampaignFromBag(@PathVariable Long bagId) {

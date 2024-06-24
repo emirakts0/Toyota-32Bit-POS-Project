@@ -65,7 +65,7 @@ public class StartupDataInitializer implements CommandLineRunner {
 
             Employee admin = new Employee();
 
-            admin.setId(0L);
+//            admin.setId(0L);
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setEmail("admin@admin.com");

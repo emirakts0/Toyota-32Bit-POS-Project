@@ -2,6 +2,7 @@ package com.reportingservice.config;
 
 import lombok.RequiredArgsConstructor;
 import org.quartz.spi.JobFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,14 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class QuartzConfig implements ApplicationContextAware {
 
+    @Value("${spring.datasource.url}")
+    private String quartzDataSourceUrl;
+
+    @Value("${spring.datasource.username}")
+    private String quartzDataSourceUsername;
+
+    @Value("${spring.datasource.password}")
+    private String quartzDataSourcePassword;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -52,9 +61,9 @@ public class QuartzConfig implements ApplicationContextAware {
         properties.setProperty("org.quartz.jobStore.isClustered", "true");
         properties.setProperty("org.quartz.jobStore.clusterCheckinInterval", "20000");
         properties.setProperty("org.quartz.dataSource.myDS.driver", "org.postgresql.Driver");
-        properties.setProperty("org.quartz.dataSource.myDS.URL", "jdbc:postgresql://localhost:5432/test_db");
-        properties.setProperty("org.quartz.dataSource.myDS.user", "emir");
-        properties.setProperty("org.quartz.dataSource.myDS.password", "emir");
+        properties.setProperty("org.quartz.dataSource.myDS.URL", quartzDataSourceUrl);
+        properties.setProperty("org.quartz.dataSource.myDS.user", quartzDataSourceUsername);
+        properties.setProperty("org.quartz.dataSource.myDS.password", quartzDataSourcePassword);
         properties.setProperty("org.quartz.scheduler.skipUpdateCheck", "true");
         return properties;
     }

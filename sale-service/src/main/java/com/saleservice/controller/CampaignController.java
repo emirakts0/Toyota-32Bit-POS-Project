@@ -1,6 +1,5 @@
 package com.saleservice.controller;
 
-
 import com.saleservice.dto.CampaignDto;
 import com.saleservice.dto.CampaignResponseDto;
 import com.saleservice.service.CampaignService;
@@ -21,7 +20,6 @@ public class CampaignController {
 
     private final CampaignService campaignService;
 
-    //TODO: girilen Discount type 2 sinden biri olmalı validasyon ekle, Şuande JSON TYPE ERROR dönüyor, daha hoş gözükebilir.
 
     @PostMapping
     public ResponseEntity<String> addCampaign(@RequestBody @Valid CampaignDto requestDto) {
@@ -31,6 +29,7 @@ public class CampaignController {
 
         return ResponseEntity.ok("Successfully added campaign");
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<CampaignResponseDto> updateCampaignDates(
@@ -46,6 +45,7 @@ public class CampaignController {
         return ResponseEntity.ok(updatedCampaign);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCampaign(@PathVariable Long id) {
         log.trace("deleteCampaign endpoint called with id: {}", id);
@@ -54,6 +54,7 @@ public class CampaignController {
 
         return ResponseEntity.ok(String.format("Campaign with ID %d succesfully deleted", id));
     }
+
 
     @GetMapping
     public ResponseEntity<Page<CampaignResponseDto>> getAllCampaigns(@RequestParam(defaultValue = "1") int pageNumber,
@@ -67,6 +68,7 @@ public class CampaignController {
         return ResponseEntity.ok().body(page);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<CampaignResponseDto> getCampaignById(@PathVariable Long id) {
         log.trace("getCampaignById endpoint called with id: {}", id);
@@ -75,5 +77,4 @@ public class CampaignController {
 
         return ResponseEntity.ok().body(campaign);
     }
-
 }

@@ -1,13 +1,6 @@
 package com.user.Service.impl;
 
-import com.user.dto.RegisterRequestDto;
 import com.user.dto.RoleDto;
-import com.user.dto.UpdateRequestDto;
-import com.user.exception.*;
-import com.user.model.Employee;
-import com.user.model.Role;
-import com.user.repository.EmployeeRepository;
-import com.user.repository.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,14 +8,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import com.user.dto.RegisterRequestDto;
+import com.user.dto.UpdateRequestDto;
+import com.user.exception.*;
+import com.user.model.Employee;
+import com.user.model.Role;
+import com.user.repository.EmployeeRepository;
+import com.user.repository.RoleRepository;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)

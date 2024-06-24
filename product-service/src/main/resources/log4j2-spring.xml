@@ -3,14 +3,13 @@
 <Configuration status="WARN">
 
     <Properties>
-        <Property name="LOG_DIR">./logs/product-service-logs</Property>
+        <Property name="LOG_DIR">product-service/logs/product-service</Property>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level:  [%t]  -  %logger{36}  -  %msg%n</Property>
         <!-- <Property name="HIGHLIGHT_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS}  %highlight{%-5level:}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=blue} [%t]  -  %logger{36}  -  %msg%n</Property> -->
     </Properties>
 
 
     <Appenders>
-
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}" />
         </Console>
@@ -19,31 +18,27 @@
                      fileName="${LOG_DIR}/dev/product-service.log"
                      filePattern="${LOG_DIR}/dev/product-service-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="${LOG_PATTERN}" />
-
             <Policies>
                 <TimeBasedTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
+            <DefaultRolloverStrategy max="5">
+                <Delete basePath="${LOG_DIR}" maxDepth="2">
+                    <IfFileName glob="product-service-*.log.gz" />
+                    <IfLastModified age="P30D" />
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
-
-        <DefaultRolloverStrategy max="5">
-            <Delete basePath="${LOG_DIR}" maxDepth="2">
-                <IfFileName glob="product-service-*.log.gz" />
-                <IfLastModified age="P30D" />
-            </Delete>
-        </DefaultRolloverStrategy>
-
     </Appenders>
 
-
     <Loggers>
-
-        <Logger name="com.productservice" level="trace">
+        <Root level="info">
             <AppenderRef ref="Console" />
             <AppenderRef ref="LogFile" />
+        </Root>
+        <Logger name="com.productservice" level="info">
+            <AppenderRef ref="LogFile" />
         </Logger>
-
     </Loggers>
-
 
 </Configuration>

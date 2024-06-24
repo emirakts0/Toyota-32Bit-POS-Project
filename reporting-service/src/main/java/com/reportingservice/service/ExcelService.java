@@ -1,7 +1,6 @@
 package com.reportingservice.service;
 
 import com.reportingservice.dto.SaleSearchCriteria;
-
 import java.io.ByteArrayInputStream;
 
 /**

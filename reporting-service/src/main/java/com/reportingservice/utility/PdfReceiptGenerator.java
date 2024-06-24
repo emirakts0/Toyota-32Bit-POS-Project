@@ -4,16 +4,16 @@ import com.reportingservice.dto.SaleDto;
 import com.reportingservice.dto.SaleItemDto;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

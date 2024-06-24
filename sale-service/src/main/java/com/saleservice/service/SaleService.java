@@ -4,7 +4,6 @@ import com.saleservice.dto.ReceiptMessage;
 import com.saleservice.exception.*;
 import com.saleservice.model.PaymentMethod;
 import jakarta.transaction.Transactional;
-
 import java.math.BigDecimal;
 
 /**

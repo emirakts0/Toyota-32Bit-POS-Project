@@ -1,7 +1,6 @@
 package com.user.dto;
 
 import lombok.Data;
-
 import java.util.Set;
 
 

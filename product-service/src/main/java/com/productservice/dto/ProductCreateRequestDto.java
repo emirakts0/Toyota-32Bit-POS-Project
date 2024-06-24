@@ -1,7 +1,7 @@
 package com.productservice.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 

@@ -2,12 +2,12 @@ package com.productservice.service.impl;
 
 import com.productservice.dto.ProductCreateRequestDto;
 import com.productservice.dto.UpdateProductRequestDto;
-import com.productservice.exception.*;
 import com.productservice.model.Image;
 import com.productservice.model.Product;
 import com.productservice.repository.ImageRepository;
 import com.productservice.repository.ProductRepository;
 import com.productservice.service.ProductManagementService;
+import com.productservice.exception.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

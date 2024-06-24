@@ -1,10 +1,7 @@
 package com.saleservice.service.impl;
 
 import com.saleservice.config.RabbitMqMessagePublisher;
-import com.saleservice.dto.BagDto;
-import com.saleservice.dto.ReceiptMessage;
-import com.saleservice.dto.SaleDto;
-import com.saleservice.dto.StockUpdateMessage;
+import com.saleservice.dto.*;
 import com.saleservice.exception.*;
 import com.saleservice.model.PaymentMethod;
 import com.saleservice.model.Sale;
@@ -17,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

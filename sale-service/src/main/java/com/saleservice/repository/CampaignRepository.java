@@ -16,5 +16,4 @@ public interface CampaignRepository extends JpaRepository<Campaign, Long> {
 
     Page<Campaign> findAll(Pageable pageable);
     Page<Campaign> findAllByDeletedFalse(Pageable pageable);
-
 }

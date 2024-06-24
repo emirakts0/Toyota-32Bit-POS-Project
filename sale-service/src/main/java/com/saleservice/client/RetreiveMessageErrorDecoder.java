@@ -1,47 +1,49 @@
 package com.saleservice.client;
 
-import com.saleservice.exception.DefaultCustomException;
-import com.saleservice.exception.ExceptionResponse;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saleservice.exception.*;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import jakarta.ws.rs.NotFoundException;
-import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 
+@Slf4j
 public class RetreiveMessageErrorDecoder implements ErrorDecoder {
     private final ErrorDecoder errorDecoder = new Default();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
 
     @Override
     public Exception decode(String methodKey, Response response) {
-        ExceptionResponse exceptionResponse = null;
-        try (InputStream body = response.body().asInputStream()) {
-            String responseBody = IOUtils.toString(body, StandardCharsets.UTF_8);
-            String dateHeader = (String) response.headers().get("date").toArray()[0];
-            LocalDateTime timeStamp = LocalDateTime.parse(dateHeader, java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME);
-            HttpStatus httpStatus = HttpStatus.resolve(response.status());
+        String message = extractMessageFromBody(response);
+        log.error("Error occurred for method {}: status {}, message {}", methodKey, response.status(), message);
 
-            exceptionResponse = new ExceptionResponse(
-                    responseBody,
-                    httpStatus,
-                    timeStamp
-            );
-
-        } catch (IOException exception) {
-            return new RuntimeException("Failed to process the error response", exception);
-        }
-
-        switch (response.status()) {
-            case 404:
-                throw new NotFoundException(String.valueOf(exceptionResponse));
-            default:
-                return new DefaultCustomException(String.valueOf(exceptionResponse));
+        if (response.status() == 404) {
+            return new ProductNotFoundException(message);
+        } else {
+            return new DefaultCustomException(message);
         }
     }
+
+
+    private String extractMessageFromBody(Response response) {
+        if (response.body() != null) {
+            try (Response.Body body = response.body()) {
+                String responseBody = new String(body.asInputStream().readAllBytes(), StandardCharsets.UTF_8);
+                JsonNode jsonNode = objectMapper.readTree(responseBody);
+                JsonNode messageNode = jsonNode.get("message");
+                if (messageNode != null) {
+                    return messageNode.asText();
+                } else {
+                    return "No message field found";
+                }
+            } catch (IOException e) {
+                return "Unknown error";
+            }
+        }
+        return "No message";
+    }
 }
-
-

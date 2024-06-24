@@ -1,8 +1,8 @@
 package com.productservice.controller;
 
+import com.productservice.service.ProductManagementService;
 import com.productservice.dto.ProductCreateRequestDto;
 import com.productservice.dto.UpdateProductRequestDto;
-import com.productservice.service.ProductManagementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class ProductManagementController {
         log.trace("updateProduct endpoint called for barcode: {}", barcode);
 
         productManagementService.updateProduct(barcode, updateProductRequestDto,file);
-        return ResponseEntity.ok().body( "Product is updated successfully" );
+        return ResponseEntity.ok().body( "Product updated successfully" );
     }
 
 

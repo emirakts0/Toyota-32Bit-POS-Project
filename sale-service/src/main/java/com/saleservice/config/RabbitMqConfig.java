@@ -21,9 +21,9 @@ public class RabbitMqConfig {
     @Value("${receipt.rabbitmq.queue}") String receiptQueueName;
     @Value("${receipt.rabbitmq.routingKey}") String receiptRoutingKey;
 
-    @Value("${rabbitmq.event.exchange}") String eventExchange;
-    @Value("${rabbitmq.event.queue}") String eventQueueName;
-    @Value("${rabbitmq.event.routingKey}") String eventRoutingKey;
+    @Value("${event.rabbitmq.exchange}") String eventExchange;
+    @Value("${event.rabbitmq.queue}") String eventQueueName;
+    @Value("${event.rabbitmq.routingKey}") String eventRoutingKey;
 
 
     @Bean

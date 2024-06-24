@@ -1,8 +1,9 @@
 package com.saleservice.config;
 
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -11,9 +12,18 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableRedisRepositories
 public class RedisConfiguration {
 
+    @Value("${redis.host.custom}")
+    private String redisHost;
+
+    @Value("${redis.port.custom}")
+    private int redisPort;
+
     @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
-        return new LettuceConnectionFactory();
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(redisHost);
+        redisStandaloneConfiguration.setPort(redisPort);
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     @Bean
