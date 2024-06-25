@@ -62,10 +62,10 @@ _POS Project (Point of Sale) is a web-based system for efficient and secure sale
 * The project requires PostgreSQL with pre-configured language settings. This database is used to store and manage service records.
 #### Redis
 * Used for temporarily storing products added to the bag and PDF files. A default Redis setup without additional configuration is sufficient.
-* It is defined as default in the docker.compose file.
+* It is defined as default in the docker-compose.yml file.
 #### RabbitMQ
 * Used extensively throughout the project for messaging. A default RabbitMQ setup without additional configuration is sufficient, as necessary settings are configured within Spring.
-* It is defined as default in the docker.compose file.
+* It is defined as default in the docker-compose.yml file.
 
 ---
 
