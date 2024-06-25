@@ -1,5 +1,6 @@
 package com.saleservice.controller;
 
+import com.saleservice.dto.CompleteSale;
 import com.saleservice.dto.ReceiptMessage;
 import com.saleservice.model.PaymentMethod;
 import com.saleservice.service.SaleService;
@@ -23,17 +24,15 @@ public class SaleController {
 
     @PostMapping("/{bagId}")
     public ResponseEntity<ReceiptMessage> completeSale(@PathVariable Long bagId,
-                                                       @RequestParam @PositiveOrZero(message = "Amount received must be zero or positive.")
-                                                            BigDecimal amountReceived,
-                                                       @RequestParam PaymentMethod paymentMethod,
+                                                       @RequestBody CompleteSale completeSale,
                                                        @RequestHeader("Name") String cashierName) {
         log.trace("completeSale endpoint called with bagId: {}, amountReceived: {}, paymentMethod: {}, cashierName: {}",
-                bagId, amountReceived, paymentMethod, cashierName);
+                bagId, completeSale.getAmountReceived(), completeSale.getPaymentMethod(), cashierName);
 
         ReceiptMessage message = saleService.completeSale(  bagId,
-                                                            amountReceived,
-                                                            paymentMethod,
-                                                            cashierName);
+                completeSale.getAmountReceived(),
+                completeSale.getPaymentMethod(),
+                cashierName);
         return ResponseEntity.ok(message);
     }
 

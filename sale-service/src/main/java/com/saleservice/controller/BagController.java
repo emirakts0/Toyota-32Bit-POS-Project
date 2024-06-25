@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@Validated
 @RequestMapping("/sale/bags")
+@Validated
 public class BagController {
 
     private final BagService bagService;
@@ -23,8 +23,7 @@ public class BagController {
     @PostMapping("/products")
     public ResponseEntity<BagDto> addProductToBag(@RequestParam(required = false) Long bagId,
                                                   @RequestParam String barcode,
-                                                  @RequestParam
-                                                      @Positive(message = "Quantity must be positive.")
+                                                  @RequestParam @Positive(message = "Quantity must be positive.")
                                                       int quantity) {
         log.trace("addProductToBag endpoint called with bagId: {}, barcode: {}, quantity: {}", bagId, barcode, quantity);
 

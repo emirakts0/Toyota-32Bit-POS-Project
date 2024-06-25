@@ -51,8 +51,8 @@ public class ProductSearchController {
 
 
     @GetMapping("/filter")
-    public ResponseEntity<Page<ProductDto>> getProductsByFilterAndPagination(@RequestBody
-                                                                             @Valid ProductSearchCriteria productSearchCriteria){
+    public ResponseEntity<Page<ProductDto>> getProductsByFilterAndPagination(@ModelAttribute
+                                                                                 @Valid ProductSearchCriteria productSearchCriteria){
         log.trace("getProductsByFilterAndPagination endpoint called with search criteria: {}", productSearchCriteria);
 
         Page<ProductDto> productPage = productSearchService.getProductsByCriteria(productSearchCriteria);

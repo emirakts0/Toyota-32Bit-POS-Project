@@ -1,5 +1,6 @@
 package com.saleservice.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = { InvalidInputException.class,
                                 BagIsEmptyException.class,
                                 DefaultCustomException.class,
+                                ConstraintViolationException.class,
                                 InvalidCampaignException.class,
                                 CampaignIsNotActive.class})
     public ResponseEntity<Object> handleBadRequestExceptions(RuntimeException e) {

@@ -134,7 +134,9 @@ public class ProductSearchServiceImplTest {
         when(modelMapper.map(product1, ProductDto.class)).thenReturn(createProductDto(product1.getName(), null));
         when(modelMapper.map(product2, ProductDto.class)).thenReturn(createProductDto(product2.getName(), product2.getImage().getImageCode()));
 
+
         Page<ProductDto> result = productSearchService.getProductsByPrefix(prefix, pageSize, pageNumber, hideDeleted);
+
 
         assertNotNull(result);
         assertEquals(2, result.getTotalElements());

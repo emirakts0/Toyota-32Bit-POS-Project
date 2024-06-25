@@ -34,6 +34,15 @@ public class ReportingController {
         return ResponseEntity.ok("Tracking request id: " + requestId);
     }
 
+    @PostMapping("/excel")
+    public ResponseEntity<String> generateExcelReport(@RequestBody @Valid SaleSearchCriteria criteria,
+                                                      @RequestParam @Email @NotBlank String email) {
+        log.trace("getExcelReport endpoint called for excel");
+
+        excelService.enqueueExcelReportRequest(criteria, email);
+        return ResponseEntity.ok("Excel report request received. The report will be sent to: " + email);
+    }
+
 
     @GetMapping("/{saleId}")
     public ResponseEntity<SaleDto> getSaleById(@PathVariable Long saleId) {
@@ -46,20 +55,10 @@ public class ReportingController {
 
     @GetMapping
     public ResponseEntity<Page<SaleDto>> getSalesByCriteriaWithPagination(
-            @RequestBody @Valid SaleSearchCriteriaWithPagination criteria) {
+            @ModelAttribute @Valid SaleSearchCriteriaWithPagination criteria) {
         log.trace("getSalesByCriteria endpoint called with criteria: {}", criteria);
 
         Page<SaleDto> salePage = saleReportingService.getSalesByCriteriaWithPagination(criteria);
         return ResponseEntity.ok().body(salePage);
-    }
-
-
-    @GetMapping("/excel")
-    public ResponseEntity<String> getExcelReport(@RequestBody @Valid SaleSearchCriteria criteria,
-                                                 @RequestParam @Email @NotBlank String email) {
-        log.trace("getExcelReport endpoint called for excel");
-
-        excelService.enqueueExcelReportRequest(criteria, email);
-        return ResponseEntity.ok("Excel report request received. The report will be sent to: " + email);
     }
 }

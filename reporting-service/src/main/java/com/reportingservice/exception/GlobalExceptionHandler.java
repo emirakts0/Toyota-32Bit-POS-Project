@@ -1,5 +1,6 @@
 package com.reportingservice.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class GlobalExceptionHandler {
                                 JobCancellationException.class,
                                 JobSchedulingException.class,
                                 JobListingException.class,
+                                ConstraintViolationException.class,
                                 JsonException.class })
     public ResponseEntity<Object> handleBadRequestExceptions(RuntimeException e) {
         return buildResponseEntity(e, HttpStatus.BAD_REQUEST);
