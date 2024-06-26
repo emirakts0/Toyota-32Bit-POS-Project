@@ -1,0 +1,267 @@
+version: '3.8'
+
+
+services:
+
+  database:
+    container_name: database
+    hostname: db
+    image: 'my-custom-postgres'
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: emir
+      POSTGRES_PASSWORD: emir
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    hostname: rabbit
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=emir
+      - RABBITMQ_DEFAULT_PASS=emir
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  eureka-server:
+    image: 'eureka-server'
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_DEFAULT_ZONE=http://eureka-server:8761/eureka
+    volumes:
+      - log_volume:/Eureka-server/logs
+    depends_on:
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  user-service:
+    image: 'user-service'
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
+      - SPRING_DATASOURCE_USERNAME=emir
+      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - EUREKA_URI=http://eureka-server:8761/eureka
+    volumes:
+      - log_volume:/user-service/logs
+    depends_on:
+      - eureka-server
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  security:
+    image: 'security'
+    container_name: security
+    ports:
+      - "8086:8086"
+    environment:
+      - EUREKA_URI=http://eureka-server:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
+      - SPRING_DATASOURCE_USERNAME=emir
+      - SPRING_DATASOURCE_PASSWORD=emir
+    volumes:
+      - log_volume:/security/logs
+    depends_on:
+      - user-service
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  product-service:
+    image: 'product-service'
+    container_name: product-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
+      - SPRING_DATASOURCE_USERNAME=emir
+      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_RABBITMQ_HOST=rabbit
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=emir
+      - SPRING_RABBITMQ_PASSWORD=emir
+      - FILE_MAX_SIZE=5242880
+      - EUREKA_URI=http://eureka-server:8761/eureka
+    volumes:
+      - log_volume:/product-service/logs
+    depends_on:
+      - security
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  sale-service:
+    image: 'sale-service'
+    container_name: sale-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
+      - SPRING_DATASOURCE_USERNAME=emir
+      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SPRING_RABBITMQ_HOST=rabbit
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=emir
+      - SPRING_RABBITMQ_PASSWORD=emir
+      - EUREKA_URI=http://eureka-server:8761/eureka
+    volumes:
+      - log_volume:/sale-service/logs
+    depends_on:
+      - product-service
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  reporting-service:
+    image: 'reporting-service'
+    container_name: reporting-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
+      - SPRING_DATASOURCE_USERNAME=emir
+      - SPRING_DATASOURCE_PASSWORD=emir
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SPRING_RABBITMQ_HOST=rabbit
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=emir
+      - SPRING_RABBITMQ_PASSWORD=emir
+      - MARKET_NAME=EXAMPLE MARKET
+      - MARKET_ADDRESS=TEST STREET. 1234 ST. NO:99
+      - MARKET_PHONE=0222 222 22 22
+      - MARKET_CITY=SAKARYA
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=pos.project0@gmail.com
+      - SPRING_MAIL_PASSWORD=bfzy caup ojiy rxft
+      - EUREKA_URI=http://eureka-server:8761/eureka
+    volumes:
+      - log_volume:/reporting-service/logs
+    depends_on:
+      - sale-service
+      - database
+      - redis
+      - rabbitmq
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+  api-gateway:
+    image: 'gateway'
+    container_name: api-gateway
+    ports:
+      - "8889:8889"
+    environment:
+      - EUREKA_URI=http://eureka-server:8761/eureka
+      - AUTH_SERVICE_URL=http://security:8086
+    volumes:
+      - log_volume:/api-gateway/logs
+    networks:
+      - pos_network
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+
+volumes:
+  postgres_data:
+    driver: local
+  log_volume:
+    driver: local
+
+networks:
+  pos_network:
+    driver: bridge
