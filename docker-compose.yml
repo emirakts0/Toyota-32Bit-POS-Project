@@ -65,7 +65,7 @@ services:
     environment:
       - EUREKA_DEFAULT_ZONE=http://eureka-server:8761/eureka
     volumes:
-      - log_volume:/Eureka-server/logs
+      - log_volume:/eureka-server/logs
     depends_on:
       - database
       - redis
