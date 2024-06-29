@@ -11,8 +11,8 @@
     <groupId>com.emir.SpringLearn</groupId>
     <artifactId>eureka-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Eureka-server</name>
-    <description>Eureka-server</description>
+    <name>eureka-server</name>
+    <description>eureka-server</description>
 
     <properties>
         <java.version>17</java.version>
