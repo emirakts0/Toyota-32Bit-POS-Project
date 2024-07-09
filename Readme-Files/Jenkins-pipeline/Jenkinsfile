@@ -1,0 +1,132 @@
+pipeline {
+    agent any
+
+
+    environment {
+        DOCKER_CREDENTIALS_ID = 'emirakts-dockerhub'
+        GIT_CREDENTIALS_ID = 'git-credentials-id'
+        DOCKER_REPO = 'emirakts'
+        HOST_USER = 'ec2-user'  //AWS default user
+    }
+
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                script {
+                    cleanWs()
+
+                    checkout([$class: 'GitSCM',
+                              branches: [[name: '*/dev']],
+                              userRemoteConfigs: [[url: 'https://github.com/emirakts0/dev',
+                                                  credentialsId: env.GIT_CREDENTIALS_ID]]])
+                }
+            }
+        }
+
+        stage('Setup Environment') {
+            steps {
+                script {
+                    sh '''
+                        curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                        chmod +x /usr/local/bin/docker-compose
+                        docker-compose --version
+                    '''
+                }
+            }
+        }
+
+        stage('Check for Changes') {
+            steps {
+                script {
+                    def changes = sh(script: 'git diff --name-only HEAD~1', returnStdout: true).trim()
+                    env.CHANGED_SERVICES = changes.tokenize('\n')
+                        .findAll { change ->
+                            change.startsWith('api-gateway') ||
+                            change.startsWith('product-service') ||
+                            change.startsWith('reporting-service') ||
+                            change.startsWith('sale-service') ||
+                            change.startsWith('security') ||
+                            change.startsWith('user-service') ||
+                            change.startsWith('eureka-server')
+                        }
+                        .collect { it.split('/')[0] }
+                        .unique()
+                        .join(' ')
+                }
+            }
+        }
+
+        stage('Build Maven Projects') {
+            steps {
+                script {
+                    def services = env.CHANGED_SERVICES.tokenize(' ')
+                    services.each { service ->
+                        dir(service) {
+                            sh "mvn clean install -DskipTests"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: env.DOCKER_CREDENTIALS_ID,
+                                                  usernameVariable: 'DOCKER_USERNAME',
+                                                  passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+                    '''
+                }
+            }
+        }
+
+        stage('Build and Push Docker Images') {
+            steps {
+                script {
+                    def services = env.CHANGED_SERVICES.tokenize(' ')
+                    def parallelStages = services.collectEntries { service ->
+                        ["${service}" : {
+                            dir(service) {
+                                sh "docker build -t ${env.DOCKER_REPO}/${service}:latest ."
+                                sh "docker push ${env.DOCKER_REPO}/${service}:latest"
+                            }
+                        }]
+                    }
+                    parallel parallelStages
+                }
+            }
+        }
+
+        stage('Update Services') {
+            steps {
+                script {
+                    def services = env.CHANGED_SERVICES.tokenize(' ')
+                    def networkName = "${env.HOST_USER}_pos_network"
+
+                    services.each { service ->
+                        sh """
+                            echo "Updating service: ${service}"
+
+                            docker-compose -f /home/${env.HOST_USER}/docker-compose.yml up -d ${service}
+                        """
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    post {
+        success {
+            echo 'Build and push successful.'
+        }
+        failure {
+            echo 'Build or push failed.'
+        }
+    }
+
+}

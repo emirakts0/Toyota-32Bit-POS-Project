@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: emirakts/jenkins-with-docker
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ec2-user:/home/ec2-user
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: always
+
+volumes:
+  jenkins_home:
+    driver: local
+  portainer_data:
+    driver: local
