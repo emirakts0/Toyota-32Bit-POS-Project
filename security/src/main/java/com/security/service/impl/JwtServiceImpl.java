@@ -76,7 +76,6 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    //TODO: Should the token be logged or not? safe or not?
     @Override
     public String getUsername(String token) {
         log.trace("getUsername method begins. TOKEN");

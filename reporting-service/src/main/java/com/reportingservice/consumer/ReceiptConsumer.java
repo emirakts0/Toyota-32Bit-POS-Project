@@ -36,9 +36,6 @@ public class ReceiptConsumer {
         SaleDto saleDto = message.getSaleDto();
 
         try {
-
-            Thread.sleep(10000);  //TODO: (Simulating delay for processing for presentation)
-
             byte[] receiptBytes = pdfGenerationService.generateReceiptPDF(saleDto);
             receiptTrackingService.updateReceiptStatus(requestId, "COMPLETED", receiptBytes);
             log.info("consumeReceiptMessage: Receipt generation completed for RequestId: {}", requestId);

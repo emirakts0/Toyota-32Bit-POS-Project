@@ -6,7 +6,7 @@ services:
   database:
     container_name: database
     hostname: db
-    image: 'my-custom-postgres'
+    image: emirakts/postgres-tr
     environment:
       POSTGRES_DB: test_db
       POSTGRES_USER: emir
@@ -58,14 +58,14 @@ services:
 
 
   eureka-server:
-    image: 'eureka-server'
+    image: emirakts/eureka-server:latest
     container_name: eureka-server
     ports:
       - "8761:8761"
     environment:
       - EUREKA_DEFAULT_ZONE=http://eureka-server:8761/eureka
     volumes:
-      - log_volume:/Eureka-server/logs
+      - log_volume:/eureka-server/logs
     depends_on:
       - database
       - redis
@@ -80,7 +80,7 @@ services:
 
 
   user-service:
-    image: 'user-service'
+    image: emirakts/user-service:latest
     container_name: user-service
     ports:
       - "8081:8081"
@@ -107,7 +107,7 @@ services:
 
 
   security:
-    image: 'security'
+    image: emirakts/security:latest
     container_name: security
     ports:
       - "8086:8086"
@@ -133,10 +133,10 @@ services:
 
 
   product-service:
-    image: 'product-service'
+    image: emirakts/product-service:latest
     container_name: product-service
     ports:
-      - "8080:8080"
+      - "8088:8088"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
       - SPRING_DATASOURCE_USERNAME=emir
@@ -165,7 +165,7 @@ services:
 
 
   sale-service:
-    image: 'sale-service'
+    image: emirakts/sale-service:latest
     container_name: sale-service
     ports:
       - "8082:8082"
@@ -198,7 +198,7 @@ services:
 
 
   reporting-service:
-    image: 'reporting-service'
+    image: emirakts/reporting-service:latest
     container_name: reporting-service
     ports:
       - "8084:8084"
@@ -238,7 +238,7 @@ services:
 
 
   api-gateway:
-    image: 'gateway'
+    image: emirakts/api-gateway:latest
     container_name: api-gateway
     ports:
       - "8889:8889"
