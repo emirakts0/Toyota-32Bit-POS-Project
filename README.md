@@ -4,7 +4,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-Powered-green.svg)](https://spring.io/projects/spring-boot)
 [![Microservices](https://img.shields.io/badge/Architecture-Microservices-orange.svg)](https://microservices.io/)
 
-A comprehensive, microservices-based Point of Sale system developed for Toyota, featuring robust sales operations, user management, and reporting capabilities.
+A comprehensive, microservices-based Point of Sale system developed for Toyota & 32Bit, featuring robust sales operations, user management, and reporting capabilities.
 
 ## Table of Contents
 1. [Project Overview](#overview)
@@ -19,10 +19,10 @@ A comprehensive, microservices-based Point of Sale system developed for Toyota, 
 3. [Project Architecture](#project-architecture)
 4. [API & DTO Reference](#api--dto-reference)
 5. [Installation Instructions](#installation-instructions)
-   1. [Quick Start](#quick-start)
+   1. [Quick Start (Not available right now)](#quick-start-_not-available-right-now_)
    2. [Detailed Setup](#detailed-setup)
 6. [Configuration](#configuration)
-7. [AWS and Jenkins](#aws-and-jenkins)
+7. [AWS Demo and Jenkins](#aws-demo-and-jenkins)
    1. [Required Installations](#required-installations)
    2. [Jenkins and Portainer Installation](#jenkins-and-portainer-installation)
       1. [Run Jenkins](#jenkins)
@@ -74,7 +74,7 @@ _POS Project (Point of Sale) is a web-based system for efficient and secure sale
 ## Project Architecture
 
 <div align="center">
-  <img alt="NoBack.png" src="Readme-Files%2FArchitecture.png" width="800"/>
+  <img alt="Architecture.png" src="Readme-Files%2FArchitecture.png" width="800"/>
 </div>
 
 
@@ -90,7 +90,9 @@ Detailed API and DTO documentation is available in multiple formats:
 
 ## Installation Instructions
 
-### Quick Start
+### Quick Start _(Not available right now)_
+_**It is not available at the moment, but it may become available via your own docker account after detailed installation.**_
+
 If you have Docker installed and running, you can use this quick setup method:
 
 1. Navigate to the main directory containing `docker-compose.yml`.
@@ -112,10 +114,8 @@ Before proceeding with the detailed setup, ensure you have the following compone
 
 - **Docker**: Used to containerize the application for easy deployment and management.
 - **PostgreSQL**: Required with pre-configured language settings for storing and managing service records.
-- **Redis**: Used for temporarily storing products added to the bag and PDF files. A default setup is sufficient.
-- **RabbitMQ**: Used for messaging throughout the project. A default setup is sufficient.
-
-**_Note:_** PostgreSQL, Redis, and RabbitMQ configurations are provided on Docker hub : `emirakts`.
+- **Redis**: Used for temporarily storing products added to the bag and PDF files.
+- **RabbitMQ**: Used for messaging throughout the project.
 
 <br>
 
@@ -163,7 +163,7 @@ By default, Docker images use the UTC time zone. The following code snippet in t
 
 <br>
 
-## AWS and Jenkins
+## AWS Demo and Jenkins
 First of all, we need an EC2 machine on AWS. Although the free tier version is sufficient for a few services, it does not meet our ram needs. For this reason, we need a minimum T2 or T3 medium machine.
 
 **_After starting the instance, we must open the necessary ports from the security group settings._**
@@ -235,7 +235,7 @@ docker-compose up -d
 <br>
 
 ### Jenkins Settings
-First enter your docker and git credentials in jenkinse and then create a pipeline job and set it up as follows.
+First enter your docker and git credentials in jenkins and then create a pipeline job and set it up as follows.
 
 **_1._** Git Project Connection
 
