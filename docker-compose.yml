@@ -6,11 +6,11 @@ services:
   database:
     container_name: database
     hostname: db
-    image: emirakts/postgres-tr
+    image: .../postgres
     environment:
       POSTGRES_DB: test_db
-      POSTGRES_USER: emir
-      POSTGRES_PASSWORD: emir
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
     volumes:
@@ -46,8 +46,8 @@ services:
       - '5672:5672'
       - '15672:15672'
     environment:
-      - RABBITMQ_DEFAULT_USER=emir
-      - RABBITMQ_DEFAULT_PASS=emir
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
     networks:
       - pos_network
     restart: on-failure
@@ -58,7 +58,7 @@ services:
 
 
   eureka-server:
-    image: emirakts/eureka-server:latest
+    image: .../eureka-server:latest
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -80,14 +80,14 @@ services:
 
 
   user-service:
-    image: emirakts/user-service:latest
+    image: .../user-service:latest
     container_name: user-service
     ports:
       - "8081:8081"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
-      - SPRING_DATASOURCE_USERNAME=emir
-      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - EUREKA_URI=http://eureka-server:8761/eureka
     volumes:
@@ -107,15 +107,15 @@ services:
 
 
   security:
-    image: emirakts/security:latest
+    image: .../security:latest
     container_name: security
     ports:
       - "8086:8086"
     environment:
       - EUREKA_URI=http://eureka-server:8761/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
-      - SPRING_DATASOURCE_USERNAME=emir
-      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
     volumes:
       - log_volume:/security/logs
     depends_on:
@@ -133,19 +133,19 @@ services:
 
 
   product-service:
-    image: emirakts/product-service:latest
+    image: .../product-service:latest
     container_name: product-service
     ports:
       - "8088:8088"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
-      - SPRING_DATASOURCE_USERNAME=emir
-      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - SPRING_RABBITMQ_HOST=rabbit
       - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=emir
-      - SPRING_RABBITMQ_PASSWORD=emir
+      - SPRING_RABBITMQ_USERNAME=admin
+      - SPRING_RABBITMQ_PASSWORD=admin
       - FILE_MAX_SIZE=5242880
       - EUREKA_URI=http://eureka-server:8761/eureka
     volumes:
@@ -165,21 +165,21 @@ services:
 
 
   sale-service:
-    image: emirakts/sale-service:latest
+    image: .../sale-service:latest
     container_name: sale-service
     ports:
       - "8082:8082"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
-      - SPRING_DATASOURCE_USERNAME=emir
-      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - SPRING_RABBITMQ_HOST=rabbit
       - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=emir
-      - SPRING_RABBITMQ_PASSWORD=emir
+      - SPRING_RABBITMQ_USERNAME=admin
+      - SPRING_RABBITMQ_PASSWORD=admin
       - EUREKA_URI=http://eureka-server:8761/eureka
     volumes:
       - log_volume:/sale-service/logs
@@ -198,28 +198,28 @@ services:
 
 
   reporting-service:
-    image: emirakts/reporting-service:latest
+    image: .../reporting-service:latest
     container_name: reporting-service
     ports:
       - "8084:8084"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test_db
-      - SPRING_DATASOURCE_USERNAME=emir
-      - SPRING_DATASOURCE_PASSWORD=emir
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - SPRING_RABBITMQ_HOST=rabbit
       - SPRING_RABBITMQ_PORT=5672
-      - SPRING_RABBITMQ_USERNAME=emir
-      - SPRING_RABBITMQ_PASSWORD=emir
+      - SPRING_RABBITMQ_USERNAME=admin
+      - SPRING_RABBITMQ_PASSWORD=admin
       - MARKET_NAME=EXAMPLE MARKET
       - MARKET_ADDRESS=TEST STREET. 1234 ST. NO:99
       - MARKET_PHONE=0222 222 22 22
       - MARKET_CITY=SAKARYA
-      - SPRING_MAIL_HOST=smtp.gmail.com
-      - SPRING_MAIL_PORT=587
-      - SPRING_MAIL_USERNAME=pos.project0@gmail.com
-      - SPRING_MAIL_PASSWORD=bfzy caup ojiy rxft
+      - SPRING_MAIL_HOST=--your-mail-host
+      - SPRING_MAIL_PORT=--your-mail-port
+      - SPRING_MAIL_USERNAME=--your-mail-username
+      - SPRING_MAIL_PASSWORD=--your-mail-password
       - EUREKA_URI=http://eureka-server:8761/eureka
     volumes:
       - log_volume:/reporting-service/logs
@@ -238,7 +238,7 @@ services:
 
 
   api-gateway:
-    image: emirakts/api-gateway:latest
+    image: .../api-gateway:latest
     container_name: api-gateway
     ports:
       - "8889:8889"
