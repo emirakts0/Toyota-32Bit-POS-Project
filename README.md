@@ -120,37 +120,25 @@ Before proceeding with the detailed setup, ensure you have the following compone
 <br>
 
 #### 1. Build Services
-Run maven clean build for services. Or if you are working within IntelliJ, follow the instructions in the gif.
+Run maven clean build for services.
 
 ```bash
 mvn clean install -DskipTests
 ```
 
-<div align="left">
-  <img alt="mvn-clean-install.gif" src="Readme-Files%2Fmvn-clean-install.gif" width="400"/>
-</div>
-
 #### 2. Build Docker Images
-Then build the docker image for the modules with the attached code. Or if you are working within IntelliJ, follow the instructions in the gif
+Then build the docker image for the modules with the attached code.
 
 ```bash
 docker build -t {service} .
 ```
 
-<div align="left">
-  <img alt="docker-build.gif" src="Readme-Files%2Fdocker-build.gif" width="400"/>
-</div>
-
 #### 3. Run Docker Compose
-Finally, let's run the docker compose file with the attached code. Or if you are working within IntelliJ, follow the instructions in the gif
+Finally, let's run the docker compose file with the attached code.
 
 ```bash
 docker-compose up -d
 ```
-
-<div align="left">
-  <img alt="compose-up.gif" src="Readme-Files%2Fcompose-up.gif" width="400"/>
-</div>
 
 <br>
 
@@ -270,9 +258,3 @@ First enter your docker and git credentials in jenkins and then create a pipelin
 - **Pipeline file**: [Jenkins-Pipeline](Readme-Files/Jenkins-pipeline/Jenkinsfile)
 
 <br>
-
-## Contact Information
-
-For any inquiries or support related to the Toyota & 32Bit POS Back-end Project, please contact me at:
-
-**Email**: _emirakts00@gmail.com_
