@@ -223,37 +223,7 @@ docker-compose up -d
 <br>
 
 ### Jenkins Settings
-First enter your docker and git credentials in jenkins and then create a pipeline job and set it up as follows.
-
-**_1._** Git Project Connection
-
-<div align="left">
-  <img alt="compose-up.gif" src="Readme-Files%2FJ-git.png" width="400"/>
-</div>
-
-<br>
-
-**_2._** The wewbhook trigger should be created via git as seen in the gif. setting must then be checked in jenkins
-
-<div align="left">
-  <img alt="compose-up.gif" src="Readme-Files%2FJ-webhook.gif" width="400"/>
-</div>
-
-<br>
-
-<div align="left">
-  <img alt="compose-up.gif" src="Readme-Files%2FJ-trigger.png" width="400"/>
-</div>
-
-<br>
-
-**_3._** Finally, the pipeline must be entered.
-
-<div align="left">
-  <img alt="compose-up.gif" src="Readme-Files%2FJ-pipeline.png" width="400"/>
-</div>
-
-<br>
+First enter your docker and git credentials in jenkins and then create a pipeline job and set it up. The wewbhook trigger should be created via git. Finally, the pipeline must be entered.
 
 - **Pipeline file**: [Jenkins-Pipeline](Readme-Files/Jenkins-pipeline/Jenkinsfile)
 
