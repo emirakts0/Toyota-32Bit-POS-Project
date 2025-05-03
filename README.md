@@ -29,7 +29,6 @@ A comprehensive, microservices-based Point of Sale system developed for Toyota &
       2. [Run Portainer](#portainer)
    3. [Up The Project on EC2](#up-the-project)
    4. [Jenkins Settings](#jenkins-settings)
-8. [Contact Information](#contact-information)
 
 
 ## Overview
